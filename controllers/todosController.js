@@ -46,6 +46,7 @@ function updateNotes(req, res) {
 function getNotes(req, res) {
   Note.find().then((data) => {
     console.log(data);
+    res.json(data);
   });
 }
 
