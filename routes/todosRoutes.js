@@ -1,17 +1,15 @@
 const express = require("express");
 const router = express.Router();
 const {
-  getTodos,
   postNotes,
   getNotes,
   deleteNotes,
   updateNotes,
 } = require("../controllers/todosController");
 
-router.get("/", getTodos);
-router.get("/notes", getNotes);
-router.post("/notes:id", postNotes);
-router.delete("/notes:id", deleteNotes);
-router.put("/notes:id", updateNotes);
+router.get("/", getNotes);
+router.post("/notes", postNotes);
+router.put("/notes/:id", updateNotes);
+router.delete("/notes/:id", deleteNotes);
 
 module.exports = router;

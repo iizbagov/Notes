@@ -10,12 +10,6 @@ const NoteSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    // createdAt
-    // updatedAt
-    // date: {
-    // type: Date,
-    // default: Date.now,
-    // },
   },
   { timestamps: { createdAt: "createdAt", updatedAt: "updatedAt" } }
 );

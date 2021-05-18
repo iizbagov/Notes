@@ -1,9 +1,5 @@
+const { json } = require("body-parser");
 const Note = require("../models/Note");
-
-function getTodos(req, res) {
-  console.log(`req`, req);
-  res.send("Hello");
-}
 
 //addNote
 function postNotes(req, res) {
@@ -30,32 +26,30 @@ function postNotes(req, res) {
 //delete
 // app.delete('/notes/:id', () => {})
 function deleteNotes(req, res) {
-  Note.deleteOne({ ...req.query.id }).then((data) =>
-    res.json(data).catch((err) => res.json({ message: err }))
-  );
+  Note.findOneAndDelete({ _id: req.params.id }).then((data) => res.json(data));
 }
 //update
 //put notes/:id
 // {}
 
 function updateNotes(req, res) {
-  const newNote = Note.updateOne(
-    { ...req.query.id },
-    { newTitle: { ...req.body.title }, newText: { ...req.body.text } }
-  );
-  newNote.then((data) =>
-    res.json(data).catch((err) => res.json({ message: err }))
-  );
+  Note.findOneAndUpdate(
+    { _id: req.params.id },
+    {
+      title: req.body.title,
+      text: req.body.text,
+    },
+    { useFindAndModify: true }
+  ).then((data) => res.json(data));
 }
 
 function getNotes(req, res) {
   Note.find().then((data) => {
-    console.log(123, data);
+    console.log(data);
   });
 }
 
 module.exports = {
-  getTodos,
   postNotes,
   deleteNotes,
   updateNotes,
