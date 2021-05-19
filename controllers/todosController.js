@@ -40,7 +40,13 @@ function updateNotes(req, res) {
       text: req.body.text,
     },
     { useFindAndModify: true }
-  ).then((data) => res.json(data));
+  ).then((value) => {
+    console.log(`value`, value);
+    Note.findById(req.params.id).then((note) => {
+      console.log("log", note);
+      res.json(note);
+    });
+  });
 }
 
 function getNotes(req, res) {
