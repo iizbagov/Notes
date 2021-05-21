@@ -1,4 +1,4 @@
-const URL = process.env.PUBLIC_URL;
+const URL = process.env.PUBLIC_URL || "http://localhost:5000";
 
 function log(url) {
   console.log("URL", URL);
@@ -7,7 +7,7 @@ function log(url) {
 export function handleNoteChanges(notes, note) {
   return async function (dispatch) {
     log(`${URL}/api/v1/${note.id}`);
-    const response = await fetch(`${URL}/api/v1/${note.id}`, {
+    const response = await fetch(`${URL}/api/v1/notes/${note.id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
@@ -63,7 +63,7 @@ export function getNotes(id) {
 }
 export function removeNote(notes, id) {
   return async function (dispatch) {
-    const deleteMethod = await fetch(`${URL}/api/v1/${id}`, {
+    const deleteMethod = await fetch(`${URL}/api/v1/notes/${id}`, {
       method: "DELETE",
     });
     if (deleteMethod.ok) {
