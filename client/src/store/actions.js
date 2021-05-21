@@ -47,9 +47,12 @@ export function setOpen(newValue) {
 export function getNotes(id) {
   return async function (dipatch) {
     console.log("make call");
-    const response = await fetch(`${URL}/api/v1/${id}`, {
-      method: "GET",
-    });
+    const response = await fetch(
+      `${URL}/api/v1/${id !== undefined ? id : ""}`,
+      {
+        method: "GET",
+      }
+    );
     const responseData = await response.json();
     dipatch({
       type: "getNotes",
