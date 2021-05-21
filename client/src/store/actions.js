@@ -7,7 +7,7 @@ function log(url) {
 export function handleNoteChanges(notes, note) {
   return async function (dispatch) {
     log(`${URL}/api/v1/${note.id}`);
-    const response = await fetch(`${URL}/api/v1/${note.id}/`, {
+    const response = await fetch(`${URL}/api/v1/${note.id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
@@ -78,7 +78,7 @@ export function removeNote(notes, id) {
 
 export function createNote(notes, newNote) {
   return async function (dispatch) {
-    const response = await fetch(`${URL}/api/v1/notes`, {
+    const response = await fetch(`${URL}/api/v1/notes/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
