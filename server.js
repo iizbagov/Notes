@@ -5,7 +5,7 @@ const mongoose = require("mongoose");
 const path = require("path");
 const port = process.env.PORT || 8080;
 const todoRoutes = require("./routes/todosRoutes");
-require("dotenv/config");
+// require("dotenv/config");
 //
 app.use(cors());
 app.use(express.json());

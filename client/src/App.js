@@ -17,6 +17,7 @@ function App() {
       }}
     >
       <div className="App">
+        {JSON.stringify(process.env)}
         <BrowserRouter>
           <Route exact path="/" render={() => <Notes />} />
           <Route
