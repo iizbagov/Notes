@@ -7,9 +7,9 @@ const {
   updateNotes,
 } = require("../controllers/todosController");
 
-router.get("api/v1/", getNotes);
-router.post("api/v1/notes", postNotes);
-router.put("api/v1/notes/:id", updateNotes);
-router.delete("api/v1/notes/:id", deleteNotes);
+router.get("/api/v1/", getNotes);
+router.post("/api/v1/notes/", postNotes);
+router.put("/api/v1/notes/:id/", updateNotes);
+router.delete("/api/v1/notes/:id/", deleteNotes);
 
 module.exports = router;
