@@ -45,7 +45,9 @@ function Note(props) {
     }
   }, [notes]);
 
-  useEffect(() => getNotes()(dispatch), [dispatch]);
+  useEffect(() => {
+    getNotes()(dispatch);
+  }, [dispatch]);
 
   function putSomeData() {
     handleNoteChanges(notes, noteValues)(dispatch);

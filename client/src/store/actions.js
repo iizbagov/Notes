@@ -1,7 +1,7 @@
 const URL = process.env.PUBLIC_URL;
 export function handleNoteChanges(notes, note) {
   return async function (dispatch) {
-    const response = await fetch(`${URL}api/v1/notes/${note.id}/`, {
+    const response = await fetch(`${URL}api/v1/${note.id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
@@ -53,7 +53,7 @@ export function getNotes() {
 }
 export function removeNote(notes, id) {
   return async function (dispatch) {
-    const deleteMethod = await fetch(`${URL}api/v1/notes/${id}/`, {
+    const deleteMethod = await fetch(`${URL}api/v1/${id}`, {
       method: "DELETE",
     });
     if (deleteMethod.ok) {
