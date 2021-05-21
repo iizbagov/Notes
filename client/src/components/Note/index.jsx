@@ -46,7 +46,7 @@ function Note(props) {
   }, [notes]);
 
   useEffect(() => {
-    getNotes()(dispatch);
+    getNotes(id)(dispatch);
   }, [dispatch]);
 
   function putSomeData() {
