@@ -14,7 +14,7 @@ import Loader from "../Loader";
 import Disclaimer from "../Disclaimer";
 import { getNotes, handleNoteChanges } from "../../store/actions";
 import { removeNote } from "../../store/actions";
-//
+
 function Note(props) {
   library.add(faTrash, faSave, faLongArrowAltLeft);
   const context = useContext(Context);
@@ -30,7 +30,6 @@ function Note(props) {
   const [showAlert, setShowAlert] = useState(false);
   const [open, setOpen] = useState(false);
 
-  console.log(notes);
   useEffect(() => {
     console.log("changed", notes);
     if (notes.length > 0) {
@@ -89,11 +88,6 @@ function Note(props) {
       textareaIsActive && changeText(false);
       setShowAlert(false);
     }
-  }
-
-  function saveChanges() {
-    putSomeData();
-    setIsSaved(true);
   }
 
   function toggleTitle() {

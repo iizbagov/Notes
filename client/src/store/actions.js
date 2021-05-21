@@ -1,37 +1,39 @@
 const URL = process.env.PUBLIC_URL || "http://localhost:5000";
 
-function log(url) {
-  console.log("URL", URL);
-  console.log("Requesting ", url);
-}
 export function handleNoteChanges(notes, note) {
   return async function (dispatch) {
-    log(`${URL}/api/v1/${note.id}`);
-    const response = await fetch(`${URL}/api/v1/notes/${note.id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json;charset=utf-8",
-      },
-      body: JSON.stringify({
-        title: note.title,
-        text: note.text,
-      }),
-    });
-    if (response.ok) {
-      const responseData = await response.json();
-      notes = notes.map((note) => {
-        if (note._id === responseData._id) {
-          return { ...responseData };
-        } else {
-          return note;
-        }
+    try {
+      const response = await fetch(`${URL}/api/v1/notes/${note.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json;charset=utf-8",
+        },
+        body: JSON.stringify({
+          title: note.title,
+          text: note.text,
+        }),
       });
-      console.log(notes);
+      if (response.ok) {
+        const responseData = await response.json();
+        notes = notes.map((note) => {
+          if (note._id === responseData._id) {
+            return { ...responseData };
+          } else {
+            return note;
+          }
+        });
+        dispatch({
+          type: "handleNoteChanges",
+          notes,
+        });
+      }
+    } catch (err) {
+      alert(err);
+      dispatch({
+        type: "handleNoteChanges",
+        notes,
+      });
     }
-    dispatch({
-      type: "handleNoteChanges",
-      notes,
-    });
   };
 }
 
@@ -44,16 +46,11 @@ export function setOpen(newValue) {
   };
 }
 
-export function getNotes(id) {
+export function getNotes() {
   return async function (dipatch) {
-    log(`${URL}/api/v1/${id !== undefined ? id : ""}`);
-    console.log("make call");
-    const response = await fetch(
-      `${URL}/api/v1/${id !== undefined ? id : ""}`,
-      {
-        method: "GET",
-      }
-    );
+    const response = await fetch(`${URL}/api/v1/`, {
+      method: "GET",
+    });
     const responseData = await response.json();
     dipatch({
       type: "getNotes",
@@ -63,12 +60,10 @@ export function getNotes(id) {
 }
 export function removeNote(notes, id) {
   return async function (dispatch) {
-    const deleteMethod = await fetch(`${URL}/api/v1/notes/${id}`, {
+    await fetch(`${URL}/api/v1/notes/${id}`, {
       method: "DELETE",
     });
-    if (deleteMethod.ok) {
-      notes.filter((note) => note._id !== id);
-    }
+    notes.filter((note) => note._id !== id);
     dispatch({
       type: "removeNote",
       notes,
