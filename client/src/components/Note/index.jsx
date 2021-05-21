@@ -14,12 +14,14 @@ import Loader from "../Loader";
 import Disclaimer from "../Disclaimer";
 import { getNotes, handleNoteChanges } from "../../store/actions";
 import { removeNote } from "../../store/actions";
+import ErrorPopup from "../ErrorPopup";
 
 function Note(props) {
   library.add(faTrash, faSave, faLongArrowAltLeft);
   const context = useContext(Context);
   const dispatch = context.dispatch;
   const notes = context.state.notes;
+  const hasError = context.state.payload.hasError;
   const history = useHistory();
   const params = useParams();
   const id = params.id;
@@ -47,6 +49,10 @@ function Note(props) {
   useEffect(() => {
     getNotes()(dispatch);
   }, [dispatch]);
+
+  useEffect(() => {
+    console.log(hasError);
+  }, [hasError]);
 
   function putSomeData() {
     handleNoteChanges(notes, noteValues)(dispatch);
@@ -102,6 +108,7 @@ function Note(props) {
 
   return (
     <div className="note">
+      {hasError ? <ErrorPopup /> : null}
       <div className="note__header">
         <div className="note__header-back_button">
           {showAlert && <Disclaimer />}

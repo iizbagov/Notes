@@ -1,6 +1,11 @@
 export const initialState = {
   notes: [],
   open: false,
+  payload: {
+    hasError: false,
+    onRetry: () => {},
+    onCancel: () => {},
+  },
 };
 
 export function reducer(state = initialState, action) {
@@ -14,6 +19,13 @@ export function reducer(state = initialState, action) {
       return {
         ...state,
         notes: [...action.notes],
+      };
+    case "noteChangeError":
+      return {
+        ...state,
+        payload: {
+          ...action.payload,
+        },
       };
     case "removeNote":
       return {

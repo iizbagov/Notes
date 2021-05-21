@@ -28,10 +28,22 @@ export function handleNoteChanges(notes, note) {
         });
       }
     } catch (err) {
-      alert(err);
       dispatch({
-        type: "handleNoteChanges",
-        notes,
+        type: "noteChangeError",
+        payload: {
+          hasError: true,
+          onRetry() {
+            handleNoteChanges(notes, note)(dispatch);
+          },
+          onCancel() {
+            dispatch({
+              type: "noteChangeError",
+              payload: {
+                hasError: false,
+              },
+            });
+          },
+        },
       });
     }
   };
