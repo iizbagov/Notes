@@ -1,5 +1,6 @@
 const { json } = require("body-parser");
 const Note = require("../models/Note");
+const User = require("../models/User");
 
 //addNote
 function postNotes(req, res) {
@@ -47,6 +48,18 @@ function updateNotes(req, res) {
       res.json(note);
     });
   });
+
+  function hash(text) {
+    return crypto.createHash("sha1").update(text).digest("base64");
+  }
+
+  // addUser
+  function addUser(req, res) {
+    const user = new User({
+      username: req.body.username,
+      password: hash(req.body.password),
+    });
+  }
 }
 
 function getNotes(req, res) {

@@ -11,7 +11,7 @@ function Popup(props) {
     title: "",
     text: "",
   });
-  const dispatch = context.dispatch;
+  const dispatch = context.dispatchMiddlaware;
   const open = context.state.open;
   const notes = context.state.notes;
 
@@ -19,8 +19,8 @@ function Popup(props) {
     const title = noteValues.title;
     const text = noteValues.text;
     if (title.trim() !== "" && text.trim() !== "") {
-      createNote(notes, noteValues)(dispatch);
-      setOpen(!open)(dispatch);
+      dispatch(createNote, notes, noteValues);
+      dispatch(setOpen, !open);
     }
   }
 
@@ -43,7 +43,7 @@ function Popup(props) {
       </div>
       <Button
         onClick={() => {
-          setOpen(!open)(dispatch);
+          dispatch(setOpen, !open);
         }}
         text=""
       />

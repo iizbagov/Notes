@@ -8,13 +8,15 @@ import { useContext, useEffect, useState } from "react";
 import { getNotes } from "../../store";
 import { setOpen } from "../../store/actions";
 
+// dispatchMiddlaware
+
 function Notes(props) {
   const context = useContext(Context);
-  const dispatch = context.dispatch;
+  const dispatch = context.dispatchMiddlaware;
   const notes = context.state.notes;
   const open = context.state.open;
 
-  useEffect(() => getNotes()(dispatch), [dispatch]);
+  useEffect(() => dispatch(getNotes), [getNotes]);
 
   return (
     <div className="notes">
@@ -22,7 +24,7 @@ function Notes(props) {
       <Header />
       <Button
         onClick={() => {
-          setOpen(!open)(dispatch);
+          dispatch(setOpen, !open);
         }}
         text="+"
       />

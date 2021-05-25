@@ -15,12 +15,14 @@ import Disclaimer from "../Disclaimer";
 import { getNotes, handleNoteChanges } from "../../store/actions";
 import { removeNote } from "../../store/actions";
 import ErrorPopup from "../ErrorPopup";
+import SaveBunner from "../SaveBunner";
 
 function Note(props) {
   library.add(faTrash, faSave, faLongArrowAltLeft);
   const context = useContext(Context);
-  const dispatch = context.dispatch;
+  const dispatch = context.dispatchMiddlaware;
   const notes = context.state.notes;
+  const isSavedData = context.state.isSaved;
   const hasError = context.state.payload.hasError;
   const history = useHistory();
   const params = useParams();
@@ -33,7 +35,6 @@ function Note(props) {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    console.log("changed", notes);
     if (notes.length > 0) {
       const note = notes.find((note) => {
         return note._id === id;
@@ -47,15 +48,13 @@ function Note(props) {
   }, [notes]);
 
   useEffect(() => {
-    getNotes()(dispatch);
-  }, [dispatch]);
+    dispatch(getNotes);
+  }, [getNotes]);
 
-  useEffect(() => {
-    console.log(hasError);
-  }, [hasError]);
+  useEffect(() => {}, [hasError]);
 
   function putSomeData() {
-    handleNoteChanges(notes, noteValues)(dispatch);
+    dispatch(handleNoteChanges, notes, noteValues);
   }
 
   function changeTitle(value) {
@@ -82,7 +81,7 @@ function Note(props) {
   }
 
   function resetNote(index) {
-    removeNote(notes, index)(dispatch);
+    dispatch(removeNote, notes, index);
     history.push("/");
   }
 
@@ -106,9 +105,16 @@ function Note(props) {
     setShowAlert(false);
   }
 
+  function onClose() {
+    dispatch((dispatch) => {
+      dispatch({ type: "save", isSaved: false });
+    }, []);
+  }
+
   return (
     <div className="note">
       {hasError ? <ErrorPopup /> : null}
+      {isSavedData ? <SaveBunner onClose={onClose} /> : null}
       <div className="note__header">
         <div className="note__header-back_button">
           {showAlert && <Disclaimer />}

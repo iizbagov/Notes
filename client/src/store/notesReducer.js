@@ -6,6 +6,7 @@ export const initialState = {
     onRetry: () => {},
     onCancel: () => {},
   },
+  isSaved: false,
 };
 
 export function reducer(state = initialState, action) {
@@ -19,6 +20,8 @@ export function reducer(state = initialState, action) {
       return {
         ...state,
         notes: [...action.notes],
+        payload: { ...action.payload },
+        isSaved: action.isSaved,
       };
     case "noteChangeError":
       return {
@@ -41,6 +44,11 @@ export function reducer(state = initialState, action) {
       return {
         ...state,
         notes: [...action.notes],
+      };
+    case "save":
+      return {
+        ...state,
+        isSaved: action.isSaved,
       };
     default:
       return state;

@@ -4,16 +4,25 @@ import { useEffect, useReducer, useState } from "react";
 import Notes from "./components/Notes";
 import Note from "./components/Note";
 import MyContext from "./components/MyContext";
-import { reducer, initialState } from "./store";
+import { reducer, initialState, getNotes } from "./store";
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
+
+  function asyncMiddleware(dispatch) {
+    return (action, ...args /*код тут*/) => action(dispatch, args);
+  }
+
+  // dispatchMiddlaware(action, notes)
+
+  // action(dispatch, notes, 1,2,3,4)
+  // getNotes()(dispatch) -> getNotes()
 
   return (
     <MyContext
       value={{
         state,
-        dispatch,
+        dispatchMiddlaware: asyncMiddleware(dispatch),
       }}
     >
       <div className="App">
