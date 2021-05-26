@@ -1,30 +1,37 @@
 import "../../index.css";
-import Header from "../Header";
 import Button from "../Button";
 import Popup from "../Popup";
 import { Link } from "react-router-dom";
 import { Context } from "../MyContext";
 import { useContext, useEffect, useState } from "react";
 import { getNotes } from "../../store";
-import { setOpen } from "../../store/actions";
-
-// dispatchMiddlaware
 
 function Notes(props) {
   const context = useContext(Context);
   const dispatch = context.dispatchMiddlaware;
   const notes = context.state.notes;
-  const open = context.state.open;
+  const [open, setOpen] = useState(false);
 
   useEffect(() => dispatch(getNotes), [getNotes]);
 
   return (
     <div className="notes">
-      {open ? <Popup /> : null}
-      <Header />
+      {open ? (
+        <Popup
+          setOpen={() => {
+            setOpen(!open);
+          }}
+        />
+      ) : null}
+      <div className="header">
+        <h2 className="header-title">Notes</h2>
+        <h4 className="header-subtitle">
+          Enter your note or create a new note
+        </h4>
+      </div>
       <Button
         onClick={() => {
-          dispatch(setOpen, !open);
+          setOpen(!open);
         }}
         text="+"
       />

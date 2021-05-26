@@ -4,7 +4,7 @@ import { Context } from "../MyContext";
 
 function ErrorPopup(props) {
   const context = useContext(Context);
-  const payload = context.state.payload;
+  const error = context.state.error;
 
   return (
     <div className="error__popup">
@@ -13,13 +13,13 @@ function ErrorPopup(props) {
         <div className="error__popup-buttons">
           <Button
             onClick={() => {
-              payload.onRetry();
+              error.onRetry();
             }}
             text="Try again"
           />
           <Button
             onClick={() => {
-              payload.onCancel();
+              error.onCancel();
             }}
             text="Cansel"
           />

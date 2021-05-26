@@ -15,3 +15,12 @@ function Button(props) {
 }
 
 export default Button;
+
+// 1 - tutorial typescript
+// 2 - what is better to use for props (interface | type)
+// 3 - Omit, Pick
+// 4 - no any type in your code
+// 5 - refactor ALL components
+// 6 - generics
+//
+//

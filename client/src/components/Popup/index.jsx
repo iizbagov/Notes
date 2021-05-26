@@ -3,7 +3,7 @@ import Button from "../Button";
 import { useState } from "react";
 import { Context } from "../MyContext";
 import { useContext } from "react";
-import { setOpen, createNote } from "../../store/actions";
+import { createNote } from "../../store/actions";
 
 function Popup(props) {
   const context = useContext(Context);
@@ -12,7 +12,6 @@ function Popup(props) {
     text: "",
   });
   const dispatch = context.dispatchMiddlaware;
-  const open = context.state.open;
   const notes = context.state.notes;
 
   function createNoteData() {
@@ -20,7 +19,7 @@ function Popup(props) {
     const text = noteValues.text;
     if (title.trim() !== "" && text.trim() !== "") {
       dispatch(createNote, notes, noteValues);
-      dispatch(setOpen, !open);
+      props.setOpen();
     }
   }
 
@@ -43,7 +42,7 @@ function Popup(props) {
       </div>
       <Button
         onClick={() => {
-          dispatch(setOpen, !open);
+          props.setOpen();
         }}
         text=""
       />

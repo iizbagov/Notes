@@ -10,13 +10,10 @@ function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   function asyncMiddleware(dispatch) {
-    return (action, ...args /*код тут*/) => action(dispatch, args);
+    return (action, ...args) => {
+      return action.apply(this, [dispatch, ...args]);
+    };
   }
-
-  // dispatchMiddlaware(action, notes)
-
-  // action(dispatch, notes, 1,2,3,4)
-  // getNotes()(dispatch) -> getNotes()
 
   return (
     <MyContext

@@ -76,6 +76,14 @@ textarea {
   align-items: center;
 }
 
+.note__container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .note-link {
   width: 100%;
   background: #fff;
@@ -253,21 +261,6 @@ textarea {
   100% {
     transform: rotate(360deg);
   }
-}
-
-.disclaimer {
-  width: 200px;
-  height: 100px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 15;
-  position: absolute;
-  top: 30px;
-  left: 140px;
-  color: #f8f8f8;
-  background: #ffc102;
-  border-radius: 10px;
 }
 
 .error__popup {

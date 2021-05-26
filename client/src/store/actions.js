@@ -1,7 +1,6 @@
 const URL = process.env.PUBLIC_URL || "http://localhost:5000";
 
-export async function handleNoteChanges(dispatch, args) {
-  let [notes, note] = args;
+export async function handleNoteChanges(dispatch, notes, note) {
   try {
     const response = await fetch(`${URL}/api/v1/notes/${note.id}`, {
       method: "PUT",
@@ -23,26 +22,25 @@ export async function handleNoteChanges(dispatch, args) {
         }
       });
       dispatch({
-        type: "handleNoteChanges",
+        type: "HANDLE-NOTE-CHANGES",
         notes,
-        payload: {
+        error: {
           hasError: false,
         },
-        isSaved: true,
       });
     }
   } catch (err) {
     dispatch({
-      type: "noteChangeError",
-      payload: {
+      type: "NOTE-CHANGE-ERROR",
+      error: {
         hasError: true,
         async onRetry() {
-          handleNoteChanges(dispatch, args);
+          handleNoteChanges(dispatch, notes, note);
         },
         onCancel() {
           dispatch({
-            type: "noteChangeError",
-            payload: {
+            type: "NOTE-CHANGE-ERROR",
+            error: {
               hasError: false,
             },
           });
@@ -52,10 +50,9 @@ export async function handleNoteChanges(dispatch, args) {
   }
 }
 
-export function setOpen(dispatch, args) {
-  const [newValue] = args;
+export function setOpen(dispatch, newValue) {
   dispatch({
-    type: "setOpen",
+    type: "SET-OPEN",
     open: newValue,
   });
 }
@@ -66,24 +63,22 @@ export async function getNotes(dispatch) {
   });
   const responseData = await response.json();
   dispatch({
-    type: "getNotes",
+    type: "GET-NOTES",
     notes: responseData,
   });
 }
-export async function removeNote(dispatch, args) {
-  const [notes, id] = args;
+export async function removeNote(dispatch, notes, id) {
   await fetch(`${URL}/api/v1/notes/${id}`, {
     method: "DELETE",
   });
-  notes.filter((note) => note._id !== id);
+  notes.filter((note) => note._id === id);
   dispatch({
-    type: "removeNote",
+    type: "REMOVE-NOTE",
     notes,
   });
 }
 
-export async function createNote(dispatch, args) {
-  let [notes, newNote] = args;
+export async function createNote(dispatch, notes, newNote) {
   const response = await fetch(`${URL}/api/v1/notes/`, {
     method: "POST",
     headers: {
@@ -104,7 +99,7 @@ export async function createNote(dispatch, args) {
     },
   ];
   dispatch({
-    type: "createNote",
+    type: "CREATE-NOTE",
     notes,
   });
 }

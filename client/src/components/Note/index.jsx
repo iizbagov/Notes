@@ -11,7 +11,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Context } from "../MyContext";
 import { useContext, useState, useEffect } from "react";
 import Loader from "../Loader";
-import Disclaimer from "../Disclaimer";
 import { getNotes, handleNoteChanges } from "../../store/actions";
 import { removeNote } from "../../store/actions";
 import ErrorPopup from "../ErrorPopup";
@@ -22,17 +21,13 @@ function Note(props) {
   const context = useContext(Context);
   const dispatch = context.dispatchMiddlaware;
   const notes = context.state.notes;
-  const isSavedData = context.state.isSaved;
-  const hasError = context.state.payload.hasError;
+  const hasError = context.state.error.hasError;
   const history = useHistory();
-  const params = useParams();
-  const id = params.id;
+  const id = useParams().id;
   const [noteValues, setNoteValues] = useState({});
   const [inputIsActive, setInputIsActive] = useState(false);
   const [textareaIsActive, setTextareaIsActive] = useState(false);
-  const [isSaved, setIsSaved] = useState(true);
-  const [showAlert, setShowAlert] = useState(false);
-  const [open, setOpen] = useState(false);
+  const [isSaved, setIsSaved] = useState(false);
 
   useEffect(() => {
     if (notes.length > 0) {
@@ -55,6 +50,7 @@ function Note(props) {
 
   function putSomeData() {
     dispatch(handleNoteChanges, notes, noteValues);
+    setIsSaved(true);
   }
 
   function changeTitle(value) {
@@ -68,16 +64,9 @@ function Note(props) {
   }
 
   function createNoteData() {
-    const title = noteValues.title;
-    const text = noteValues.text;
-    if (title.trim() !== "" && text.trim() !== "") {
-      setOpen(!open);
-    }
     inputIsActive && changeTitle();
     textareaIsActive && changeText();
     putSomeData();
-    setIsSaved(true);
-    setShowAlert(false);
   }
 
   function resetNote(index) {
@@ -86,98 +75,86 @@ function Note(props) {
   }
 
   function goToNotes() {
-    setShowAlert(true);
-    if (isSaved !== false) {
+    if (isSaved === false) {
       history.push("/");
       inputIsActive && changeTitle(false);
       textareaIsActive && changeText(false);
-      setShowAlert(false);
     }
   }
 
-  function toggleTitle() {
-    changeTitle(true);
-    setShowAlert(false);
-  }
-
-  function toggleText() {
-    changeText(true);
-    setShowAlert(false);
-  }
-
   function onClose() {
-    dispatch((dispatch) => {
-      dispatch({ type: "save", isSaved: false });
-    }, []);
+    setIsSaved(false);
   }
 
   return (
-    <div className="note">
-      {hasError ? <ErrorPopup /> : null}
-      {isSavedData ? <SaveBunner onClose={onClose} /> : null}
-      <div className="note__header">
-        <div className="note__header-back_button">
-          {showAlert && <Disclaimer />}
-          <Button
-            onClick={goToNotes}
-            text={<FontAwesomeIcon icon={faLongArrowAltLeft} />}
-          />
-        </div>
-        <div className="note__header-title" onClick={toggleTitle}>
-          {inputIsActive ? (
-            <input
-              value={noteValues.title}
-              onChange={(e) => {
-                setNoteValues((node) => {
-                  return {
-                    ...node,
-                    title: e.target.value,
-                  };
-                });
-                setIsSaved(false);
+    <div className="note__container">
+      {notes.length > 0 ? (
+        <div className="note">
+          {hasError ? <ErrorPopup /> : null}
+          {isSaved ? <SaveBunner onClose={onClose} /> : null}
+          <div className="note__header">
+            <div className="note__header-back_button">
+              <Button
+                onClick={goToNotes}
+                text={<FontAwesomeIcon icon={faLongArrowAltLeft} />}
+              />
+            </div>
+            <div
+              className="note__header-title"
+              onClick={() => changeTitle(true)}
+            >
+              {inputIsActive ? (
+                <input
+                  value={noteValues.title}
+                  onChange={(e) => {
+                    setNoteValues((node) => {
+                      return {
+                        ...node,
+                        title: e.target.value,
+                      };
+                    });
+                  }}
+                ></input>
+              ) : (
+                <h1>{noteValues.title}</h1>
+              )}
+            </div>
+            <Button
+              onClick={() => {
+                !inputIsActive && !textareaIsActive
+                  ? resetNote(id)
+                  : createNoteData();
               }}
-            ></input>
-          ) : notes.length > 0 ? (
-            <h1>{noteValues.title}</h1>
-          ) : (
-            <Loader />
-          )}
-        </div>
-        <Button
-          onClick={() => {
-            !inputIsActive && !textareaIsActive
-              ? resetNote(id)
-              : createNoteData();
-          }}
-          text={
-            <FontAwesomeIcon
-              icon={!inputIsActive && !textareaIsActive ? faTrash : faSave}
+              text={
+                <FontAwesomeIcon
+                  icon={!inputIsActive && !textareaIsActive ? faTrash : faSave}
+                />
+              }
             />
-          }
-        />
-      </div>
-      <div className="note__wrapper">
-        <div className="note__content" onClick={toggleText}>
-          {textareaIsActive ? (
-            <textarea
-              value={noteValues.text}
-              onChange={(e) => {
-                setNoteValues((node) => {
-                  return {
-                    ...node,
-                    text: e.target.value,
-                  };
-                });
-                setIsSaved(false);
-              }}
-            ></textarea>
-          ) : notes.length > 0 ? (
-            <div>{noteValues.text}</div>
-          ) : (
-            <Loader />
-          )}
+          </div>
+          <div className="note__wrapper">
+            <div className="note__content" onClick={() => changeText(true)}>
+              {textareaIsActive ? (
+                <textarea
+                  value={noteValues.text}
+                  onChange={(e) => {
+                    setNoteValues((node) => {
+                      return {
+                        ...node,
+                        text: e.target.value,
+                      };
+                    });
+                  }}
+                ></textarea>
+              ) : (
+                <div>{noteValues.text}</div>
+              )}
+            </div>
+          </div>
         </div>
-      </div>
+      ) : (
+        <Loader />
+      )}
     </div>
   );
 }
