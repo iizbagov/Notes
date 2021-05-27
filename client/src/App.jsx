@@ -1,17 +1,17 @@
 import { BrowserRouter, Route } from "react-router-dom";
 import "./index.css";
-import { useEffect, useReducer, useState } from "react";
+import { useReducer } from "react";
 import Notes from "./components/Notes";
 import Note from "./components/Note";
 import MyContext from "./components/MyContext";
-import { reducer, initialState, getNotes } from "./store";
+import { reducer, initialState } from "./store";
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   function asyncMiddleware(dispatch) {
     return (action, ...args) => {
-      return action.apply(this, [dispatch, ...args]);
+      return action.apply(null, [dispatch, ...args]);
     };
   }
 
@@ -30,7 +30,6 @@ function App() {
             render={(props) => {
               return <Note />;
             }}
-            onLeave={() => alert("stoj")}
           />
         </BrowserRouter>
       </div>

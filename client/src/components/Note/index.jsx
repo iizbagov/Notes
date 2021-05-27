@@ -37,7 +37,7 @@ function Note(props) {
       setNoteValues({
         title: note.title,
         text: note.text,
-        id: note._id,
+        _id: note._id,
       });
     }
   }, [notes]);

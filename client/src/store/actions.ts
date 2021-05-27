@@ -1,8 +1,10 @@
+import { NoteData, Action } from './types/notesInterface';
+
 const URL = process.env.PUBLIC_URL || "http://localhost:5000";
 
-export async function handleNoteChanges(dispatch, notes, note) {
+export async function handleNoteChanges(dispatch: (action:Action) => void, notes: Array<NoteData>, note: NoteData) {
   try {
-    const response = await fetch(`${URL}/api/v1/notes/${note.id}`, {
+    const response = await fetch(`${URL}/api/v1/notes/${note._id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
@@ -22,26 +24,30 @@ export async function handleNoteChanges(dispatch, notes, note) {
         }
       });
       dispatch({
-        type: "HANDLE-NOTE-CHANGES",
+        type: "HANDLE_NOTE_CHANGES",
         notes,
-        error: {
+        payload: {
           hasError: false,
+            onRetry: () => {},
+            onCancel: () => {},
         },
       });
     }
   } catch (err) {
     dispatch({
-      type: "NOTE-CHANGE-ERROR",
-      error: {
+      type: "NOTE_CHANGE_ERROR",
+      payload: {
         hasError: true,
         async onRetry() {
           handleNoteChanges(dispatch, notes, note);
         },
         onCancel() {
           dispatch({
-            type: "NOTE-CHANGE-ERROR",
-            error: {
+            type: "NOTE_CHANGE_ERROR",
+            payload: {
               hasError: false,
+              onRetry: () => {},
+              onCancel: () => {},
             },
           });
         },
@@ -50,35 +56,28 @@ export async function handleNoteChanges(dispatch, notes, note) {
   }
 }
 
-export function setOpen(dispatch, newValue) {
-  dispatch({
-    type: "SET-OPEN",
-    open: newValue,
-  });
-}
-
-export async function getNotes(dispatch) {
+export async function getNotes(dispatch: (action:Action) => void) {
   const response = await fetch(`${URL}/api/v1/`, {
     method: "GET",
   });
   const responseData = await response.json();
   dispatch({
-    type: "GET-NOTES",
+    type: "GET_NOTES",
     notes: responseData,
   });
 }
-export async function removeNote(dispatch, notes, id) {
+export async function removeNote(dispatch: (action:Action) => void, notes: Array<NoteData>, id:string) {
   await fetch(`${URL}/api/v1/notes/${id}`, {
     method: "DELETE",
   });
   notes.filter((note) => note._id === id);
   dispatch({
-    type: "REMOVE-NOTE",
+    type: "REMOVE_NOTE",
     notes,
   });
 }
 
-export async function createNote(dispatch, notes, newNote) {
+export async function createNote(dispatch: (action:Action) => void, notes: Array<NoteData>, newNote: NoteData) {
   const response = await fetch(`${URL}/api/v1/notes/`, {
     method: "POST",
     headers: {
@@ -99,7 +98,7 @@ export async function createNote(dispatch, notes, newNote) {
     },
   ];
   dispatch({
-    type: "CREATE-NOTE",
+    type: "CREATE_NOTE",
     notes,
   });
 }

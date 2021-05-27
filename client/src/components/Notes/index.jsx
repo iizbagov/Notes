@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { Context } from "../MyContext";
 import { useContext, useEffect, useState } from "react";
 import { getNotes } from "../../store";
+import Loader from "../Loader";
 
 function Notes(props) {
   const context = useContext(Context);
@@ -51,10 +52,7 @@ function Notes(props) {
           })
         ) : (
           <div className="notes__container-desc">
-            <div className="notes__container-desc-text">
-              Sorry but now you haven`t any note, if you want create it push on
-              create button
-            </div>
+            <Loader />
           </div>
         )}
       </div>
