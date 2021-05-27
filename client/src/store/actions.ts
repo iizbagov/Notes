@@ -1,8 +1,12 @@
-import { NoteData, Action } from './types/notesInterface';
+import { NoteData, Action } from "./types/notesInterface";
 
 const URL = process.env.PUBLIC_URL || "http://localhost:5000";
 
-export async function handleNoteChanges(dispatch: (action:Action) => void, notes: Array<NoteData>, note: NoteData) {
+export async function handleNoteChanges(
+  dispatch: (action: Action) => void,
+  notes: Array<NoteData>,
+  note: NoteData
+) {
   try {
     const response = await fetch(`${URL}/api/v1/notes/${note._id}`, {
       method: "PUT",
@@ -25,11 +29,13 @@ export async function handleNoteChanges(dispatch: (action:Action) => void, notes
       });
       dispatch({
         type: "HANDLE_NOTE_CHANGES",
-        notes,
         payload: {
-          hasError: false,
+          notes,
+          error: {
+            hasError: false,
             onRetry: () => {},
             onCancel: () => {},
+          },
         },
       });
     }
@@ -56,28 +62,36 @@ export async function handleNoteChanges(dispatch: (action:Action) => void, notes
   }
 }
 
-export async function getNotes(dispatch: (action:Action) => void) {
+export async function getNotes(dispatch: (action: Action) => void) {
   const response = await fetch(`${URL}/api/v1/`, {
     method: "GET",
   });
   const responseData = await response.json();
   dispatch({
     type: "GET_NOTES",
-    notes: responseData,
+    payload: responseData,
   });
 }
-export async function removeNote(dispatch: (action:Action) => void, notes: Array<NoteData>, id:string) {
+export async function removeNote(
+  dispatch: (action: Action) => void,
+  notes: Array<NoteData>,
+  id: string
+) {
   await fetch(`${URL}/api/v1/notes/${id}`, {
     method: "DELETE",
   });
   notes.filter((note) => note._id === id);
   dispatch({
     type: "REMOVE_NOTE",
-    notes,
+    payload: notes,
   });
 }
 
-export async function createNote(dispatch: (action:Action) => void, notes: Array<NoteData>, newNote: NoteData) {
+export async function createNote(
+  dispatch: (action: Action) => void,
+  notes: Array<NoteData>,
+  newNote: NoteData
+) {
   const response = await fetch(`${URL}/api/v1/notes/`, {
     method: "POST",
     headers: {
@@ -99,6 +113,6 @@ export async function createNote(dispatch: (action:Action) => void, notes: Array
   ];
   dispatch({
     type: "CREATE_NOTE",
-    notes,
+    payload: notes,
   });
 }
