@@ -18,10 +18,11 @@ export const initialState: InitialState = {
 export function reducer(state = initialState, action: Action) {
   switch (action.type) {
     case HANDLE_NOTE_CHANGES:
+      console.log(action);
       return {
         ...state,
+        notes: action.notes,
         error: { ...action.payload },
-        notes: action.payload,
       };
     case NOTE_CHANGE_ERROR:
       return {
@@ -33,17 +34,17 @@ export function reducer(state = initialState, action: Action) {
     case REMOVE_NOTE:
       return {
         ...state,
-        notes: action.payload,
+        notes: action.notes,
       };
     case GET_NOTES:
       return {
         ...state,
-        notes: action.payload,
+        notes: action.notes,
       };
     case CREATE_NOTE:
       return {
         ...state,
-        notes: action.payload,
+        notes: action.notes,
       };
     default:
       return state;

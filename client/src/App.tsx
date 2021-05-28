@@ -5,12 +5,13 @@ import Notes from "./components/Notes";
 import Note from "./components/Note";
 import MyContext from "./components/MyContext";
 import { reducer, initialState } from "./store";
+import { argsArray, PropsT } from './store/types/notesInterface';
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  function asyncMiddleware(dispatch) {
-    return (action, ...args) => {
+  function asyncMiddleware(dispatch: Function) {
+    return (action:Function, ...args: argsArray) => {
       return action.apply(null, [dispatch, ...args]);
     };
   }
@@ -27,7 +28,7 @@ function App() {
           <Route exact path="/" render={() => <Notes />} />
           <Route
             path="/notes/:id"
-            render={(props) => {
+            render={(props: PropsT) => {
               return <Note />;
             }}
           />

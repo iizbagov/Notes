@@ -17,12 +17,18 @@ export interface InitialState {
 
 export type Action =
   {
-    type:string
-    payload: Array<NoteData>;
-  } | {
-    type:string
+    type:string;
+  } & ({
+    notes: Array<NoteData>;
+  } & {
     payload: Error;
   } | {
-    type:string
-    payload: { notes: Array<NoteData>; error: Error };
-  };
+    notes: Array<NoteData>;
+    payload: Error;
+  });
+
+export interface Params {
+  id: string;
+}
+export type argsArray = [string | number | boolean | Object];
+export type PropsT = any;

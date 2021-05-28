@@ -1,37 +1,43 @@
 import { useHistory, useParams } from "react-router";
 import "../../index.css";
 import Button from "../Button";
-import { library } from "@fortawesome/fontawesome-svg-core";
+import { library} from "@fortawesome/fontawesome-svg-core";
 import {
   faTrash,
   faSave,
   faLongArrowAltLeft,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Context } from "../MyContext";
+import { Context } from "../MyContext/index.js";
 import { useContext, useState, useEffect } from "react";
 import Loader from "../Loader";
 import { getNotes, handleNoteChanges } from "../../store/actions";
 import { removeNote } from "../../store/actions";
 import ErrorPopup from "../ErrorPopup";
 import SaveBunner from "../SaveBunner";
+import { NoteData, PropsT, Params } from "../../store/types/notesInterface";
 
-function Note(props) {
+function Note<T>(props: T) {
   library.add(faTrash, faSave, faLongArrowAltLeft);
   const context = useContext(Context);
   const dispatch = context.dispatchMiddlaware;
   const notes = context.state.notes;
   const hasError = context.state.error.hasError;
   const history = useHistory();
-  const id = useParams().id;
-  const [noteValues, setNoteValues] = useState({});
+  const params: Params = useParams()
+  const id: string = params.id;
+  const [noteValues, setNoteValues] = useState<NoteData>({
+    title: '',
+    text: '',
+    _id: ''
+  });
   const [inputIsActive, setInputIsActive] = useState(false);
   const [textareaIsActive, setTextareaIsActive] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
 
   useEffect(() => {
     if (notes.length > 0) {
-      const note = notes.find((note) => {
+      const note = notes.find((note: NoteData) => {
         return note._id === id;
       });
       setNoteValues({
@@ -53,23 +59,23 @@ function Note(props) {
     setIsSaved(true);
   }
 
-  function changeTitle(value) {
+  function changeTitle(value: boolean) {
     setInputIsActive(value);
     textareaIsActive && setTextareaIsActive(!textareaIsActive);
   }
 
-  function changeText(value) {
+  function changeText(value: boolean) {
     inputIsActive && setInputIsActive(!inputIsActive);
     setTextareaIsActive(value);
   }
 
   function createNoteData() {
-    inputIsActive && changeTitle();
-    textareaIsActive && changeText();
+    inputIsActive && changeTitle(false);
+    textareaIsActive && changeText(false);
     putSomeData();
   }
 
-  function resetNote(index) {
+  function resetNote(index: string) {
     dispatch(removeNote, notes, index);
     history.push("/");
   }

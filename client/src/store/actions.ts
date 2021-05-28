@@ -29,19 +29,18 @@ export async function handleNoteChanges(
       });
       dispatch({
         type: "HANDLE_NOTE_CHANGES",
+        notes,
         payload: {
-          notes,
-          error: {
-            hasError: false,
-            onRetry: () => {},
-            onCancel: () => {},
-          },
+          hasError: false,
+          onRetry: () => {},
+          onCancel: () => {},
         },
       });
     }
   } catch (err) {
     dispatch({
       type: "NOTE_CHANGE_ERROR",
+      notes,
       payload: {
         hasError: true,
         async onRetry() {
@@ -50,6 +49,7 @@ export async function handleNoteChanges(
         onCancel() {
           dispatch({
             type: "NOTE_CHANGE_ERROR",
+            notes,
             payload: {
               hasError: false,
               onRetry: () => {},
@@ -69,7 +69,12 @@ export async function getNotes(dispatch: (action: Action) => void) {
   const responseData = await response.json();
   dispatch({
     type: "GET_NOTES",
-    payload: responseData,
+    notes: responseData,
+    payload: {
+      hasError: false,
+      onRetry: () => {},
+      onCancel: () => {},
+    },
   });
 }
 export async function removeNote(
@@ -83,7 +88,12 @@ export async function removeNote(
   notes.filter((note) => note._id === id);
   dispatch({
     type: "REMOVE_NOTE",
-    payload: notes,
+    notes: notes,
+    payload: {
+      hasError: false,
+      onRetry: () => {},
+      onCancel: () => {},
+    },
   });
 }
 
@@ -113,6 +123,11 @@ export async function createNote(
   ];
   dispatch({
     type: "CREATE_NOTE",
-    payload: notes,
+    notes,
+    payload: {
+      hasError: false,
+      onRetry: () => {},
+      onCancel: () => {},
+    },
   });
 }

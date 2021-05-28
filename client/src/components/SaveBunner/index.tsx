@@ -1,6 +1,7 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
+import { PropsT} from "../../store/types/notesInterface";
 
-function SaveBunner(props) {
+function SaveBunner(props: PropsT) {
   useEffect(() => {
     setTimeout(() => {
       props.onClose();

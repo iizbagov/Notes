@@ -1,4 +1,5 @@
 import React from "react";
+import { PropsT } from "../../store/types/notesInterface";
 
 export const Context = React.createContext();
 

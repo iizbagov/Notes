@@ -1,11 +1,12 @@
 import "../../index.css";
 import Button from "../Button";
 import { useState } from "react";
-import { Context } from "../MyContext";
+import { Context } from "../MyContext/index.js";
 import { useContext } from "react";
 import { createNote } from "../../store/actions";
+import { PropsT } from "../../store/types/notesInterface";
 
-function Popup(props) {
+function Popup(props: PropsT) {
   const context = useContext(Context);
   const [noteValues, setNoteValues] = useState({
     title: "",
@@ -24,7 +25,7 @@ function Popup(props) {
   }
 
   return (
-    <div className="popup" to="/popup">
+    <div className="popup">
       <div className="popup__container">
         <input
           onChange={(e) =>

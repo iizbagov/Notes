@@ -6,12 +6,14 @@ import { Context } from "../MyContext";
 import { useContext, useEffect, useState } from "react";
 import { getNotes } from "../../store";
 import Loader from "../Loader";
+import { PropsT, NoteData } from "../../store/types/notesInterface";
 
-function Notes(props) {
+function Notes<T>(props: T) {
   const context = useContext(Context);
+  console.log(context);
   const dispatch = context.dispatchMiddlaware;
   const notes = context.state.notes;
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState<boolean>(false);
 
   useEffect(() => dispatch(getNotes), [getNotes]);
 
@@ -38,7 +40,7 @@ function Notes(props) {
       />
       <div className="notes__container">
         {notes.length > 0 ? (
-          notes.map((note) => {
+          notes.map((note: NoteData) => {
             return (
               <div key={note._id} className="note-link_container">
                 <Link to={`/notes/${note._id}`}>

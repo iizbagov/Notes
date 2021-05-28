@@ -1,8 +1,9 @@
 import { useContext } from "react";
+import { PropsT } from "../../store/types/notesInterface";
 import Button from "../Button";
-import { Context } from "../MyContext";
+import { Context } from "../MyContext/index.js";
 
-function ErrorPopup(props) {
+function ErrorPopup(props: PropsT) {
   const context = useContext(Context);
   const error = context.state.error;
 
