@@ -16,14 +16,13 @@ export interface InitialState {
 }
 
 export type Action =
-  | ({ type: string } & {
-      payload: Array<NoteData>;
-    })
-  | {
-      type: string;
-      payload: Error;
-    }
-  | {
-      type: string;
-      payload: { notes: Array<NoteData>; error: Error };
-    };
+  {
+    type:string
+    payload: Array<NoteData>;
+  } | {
+    type:string
+    payload: Error;
+  } | {
+    type:string
+    payload: { notes: Array<NoteData>; error: Error };
+  };
