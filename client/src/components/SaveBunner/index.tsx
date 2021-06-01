@@ -1,5 +1,8 @@
 import { useEffect } from "react";
-import { SaveBunnerProps} from "../../store/types/notesInterface";
+
+export interface SaveBunnerProps {
+  onClose: () => void;
+}
 
 function SaveBunner(props: SaveBunnerProps) {
   useEffect(() => {

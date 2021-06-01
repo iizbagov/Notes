@@ -3,8 +3,11 @@ import Button from "../Button";
 import { useState } from "react";
 import { useContext } from "react";
 import { createNote } from "../../store/actions";
-import { PopupProps} from "../../store/types/notesInterface";
-import { AppContext } from "../../App";
+import { AppContext } from "../Context";
+
+type PopupProps = {
+  setOpen: () => void;
+}
 
 function Popup(props: PopupProps) {
   const context = useContext(AppContext);

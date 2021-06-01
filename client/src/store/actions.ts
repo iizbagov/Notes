@@ -1,4 +1,4 @@
-import { NoteData, Action } from "./types/notesInterface";
+import { NoteData, Action } from "../components/types/notesInterface";
 
 const URL = process.env.PUBLIC_URL || "http://localhost:5000";
 

@@ -5,8 +5,8 @@ import { Link } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { getNotes } from "../../store";
 import Loader from "../Loader";
-import { NoteData } from "../../store/types/notesInterface";
-import { AppContext } from "../../App";
+import { NoteData } from "../types/notesInterface";
+import { AppContext } from "../Context";
 
 function Notes<T>(props: T) {
   const context = useContext(AppContext);

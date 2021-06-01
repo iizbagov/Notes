@@ -1,4 +1,4 @@
-import { InitialState, Action } from "./types/notesInterface";
+import { InitialState, Action } from "../components/types/notesInterface";
 
 const HANDLE_NOTE_CHANGES = "HANDLE_NOTE_CHANGES";
 const NOTE_CHANGE_ERROR = "NOTE_CHANGE_ERROR";

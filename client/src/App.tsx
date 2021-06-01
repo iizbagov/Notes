@@ -1,12 +1,12 @@
 import { BrowserRouter, Route } from "react-router-dom";
 import "./index.css";
-import { createContext, useReducer } from "react";
+import { useReducer } from "react";
 import Notes from "./components/Notes";
 import Note from "./components/Note";
 import { reducer, initialState } from "./store";
-import { Action, ContextState } from './store/types/notesInterface';
+import { Action } from './components/types/notesInterface';
+import MyContext from "./components/Context";
 
-export const AppContext = createContext<ContextState>({} as ContextState);
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -18,10 +18,8 @@ function App() {
     };
   }
 
-  console.log(dispatch);
-
   return (
-    <AppContext.Provider
+    <MyContext
       value={{
         state,
         dispatchMiddleware: asyncMiddleware(dispatch),
@@ -38,7 +36,7 @@ function App() {
           />
         </BrowserRouter>
       </div>
-    </AppContext.Provider>
+    </MyContext>
   );
 }
 

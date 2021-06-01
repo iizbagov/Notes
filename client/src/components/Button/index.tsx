@@ -1,5 +1,11 @@
+import { ReactElement } from "react";
 import "../../index.css";
-import { ButtonProps } from "../../store/types/notesInterface";
+
+type ButtonProps = {
+  onClick?: () => void;
+  onDoubleClick?: () => void;
+  children: ReactElement | string;
+}
 
 function Button(props: ButtonProps) {
   return (

@@ -1,6 +1,6 @@
 import { useContext } from "react";
-import { AppContext } from "../../App";
-import { } from "../../store/types/notesInterface";
+import { AppContext } from "../Context";
+import { } from "../types/notesInterface";
 import Button from "../Button";
 
 function ErrorPopup<T>(props: T) {

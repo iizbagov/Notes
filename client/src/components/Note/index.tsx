@@ -14,8 +14,8 @@ import { getNotes, handleNoteChanges } from "../../store/actions";
 import { removeNote } from "../../store/actions";
 import ErrorPopup from "../ErrorPopup";
 import SaveBunner from "../SaveBunner";
-import { NoteData, Params } from "../../store/types/notesInterface";
-import { AppContext } from "../../App";
+import { NoteData, Params } from "../types/notesInterface";
+import { AppContext } from "../Context";
 
 function Note<T>(props: T) {
   library.add(faTrash, faSave, faLongArrowAltLeft);
