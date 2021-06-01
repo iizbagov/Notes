@@ -1,4 +1,4 @@
-function Loader<T>(props: T) {
+function Loader() {
   return <div className="lds-dual-ring"></div>;
 }
 

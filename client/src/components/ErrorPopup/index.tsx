@@ -3,7 +3,7 @@ import { AppContext } from "../Context";
 import { } from "../types/notesInterface";
 import Button from "../Button";
 
-function ErrorPopup<T>(props: T) {
+function ErrorPopup() {
   const context = useContext(AppContext);
   const error = context.state.error;
 

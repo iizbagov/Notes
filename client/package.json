@@ -49,6 +49,8 @@
     ]
   },
   "devDependencies": {
+    "@emotion/babel-plugin": "^11.3.0",
+    "@emotion/babel-preset-css-prop": "^11.2.0",
     "@types/react-router-dom": "^5.1.7",
     "typescript": "^4.2.4"
   }

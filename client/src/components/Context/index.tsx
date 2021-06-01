@@ -1,6 +1,5 @@
-import { createContext } from "react";
+import { createContext, ReactElement } from "react";
 import { ContextState } from "../types/notesInterface";
-import { ReactElement } from "react";
 
 type ContextProps = {
     value: ContextState;

@@ -17,7 +17,7 @@ import SaveBunner from "../SaveBunner";
 import { NoteData, Params } from "../types/notesInterface";
 import { AppContext } from "../Context";
 
-function Note<T>(props: T) {
+function Note() {
   library.add(faTrash, faSave, faLongArrowAltLeft);
   const context = useContext(AppContext);
   const dispatch = context.dispatchMiddleware;

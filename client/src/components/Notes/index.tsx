@@ -7,14 +7,24 @@ import { getNotes } from "../../store";
 import Loader from "../Loader";
 import { NoteData } from "../types/notesInterface";
 import { AppContext } from "../Context";
+import styled from "@emotion/styled";
 
-function Notes<T>(props: T) {
+function Notes() {
   const context = useContext(AppContext);
   const dispatch = context.dispatchMiddleware;
   const notes = context.state.notes;
   const [open, setOpen] = useState<boolean>(false);
 
   useEffect(() => dispatch(getNotes), [getNotes]);
+
+  const NotesStyles = styled('div')`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+  `
 
   return (
     <div className="notes">

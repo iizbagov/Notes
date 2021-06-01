@@ -32,13 +32,6 @@ code {
     monospace;
 }
 
-button {
-  color: #f8f8f8;
-  background: #ffc102;
-  border: none;
-  border-radius: 10px;
-}
-
 textarea {
   letter-spacing: -0.09em;
 }

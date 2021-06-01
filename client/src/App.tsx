@@ -6,6 +6,8 @@ import Note from "./components/Note";
 import { reducer, initialState } from "./store";
 import { Action } from './components/types/notesInterface';
 import MyContext from "./components/Context";
+import styled from "@emotion/styled";
+
 
 
 function App() {

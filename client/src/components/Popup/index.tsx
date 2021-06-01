@@ -5,11 +5,11 @@ import { useContext } from "react";
 import { createNote } from "../../store/actions";
 import { AppContext } from "../Context";
 
-type PopupProps = {
+type Props = {
   setOpen: () => void;
 }
 
-function Popup(props: PopupProps) {
+function Popup(props: Props) {
   const context = useContext(AppContext);
   const [noteValues, setNoteValues] = useState({
     title: "",
