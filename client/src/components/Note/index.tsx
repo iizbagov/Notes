@@ -8,19 +8,19 @@ import {
   faLongArrowAltLeft,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Context } from "../MyContext/index.js";
 import { useContext, useState, useEffect } from "react";
 import Loader from "../Loader";
 import { getNotes, handleNoteChanges } from "../../store/actions";
 import { removeNote } from "../../store/actions";
 import ErrorPopup from "../ErrorPopup";
 import SaveBunner from "../SaveBunner";
-import { NoteData, PropsT, Params } from "../../store/types/notesInterface";
+import { NoteData, Params } from "../../store/types/notesInterface";
+import { AppContext } from "../../App";
 
 function Note<T>(props: T) {
   library.add(faTrash, faSave, faLongArrowAltLeft);
-  const context = useContext(Context);
-  const dispatch = context.dispatchMiddlaware;
+  const context = useContext(AppContext);
+  const dispatch = context.dispatchMiddleware;
   const notes = context.state.notes;
   const hasError = context.state.error.hasError;
   const history = useHistory();
@@ -41,9 +41,9 @@ function Note<T>(props: T) {
         return note._id === id;
       });
       setNoteValues({
-        title: note.title,
-        text: note.text,
-        _id: note._id,
+        title: note!.title,
+        text: note!.text,
+        _id: note!._id,
       });
     }
   }, [notes]);
@@ -102,8 +102,9 @@ function Note<T>(props: T) {
             <div className="note__header-back_button">
               <Button
                 onClick={goToNotes}
-                text={<FontAwesomeIcon icon={faLongArrowAltLeft} />}
-              />
+              >
+                <FontAwesomeIcon icon={faLongArrowAltLeft} />
+              </Button>
             </div>
             <div
               className="note__header-title"
@@ -131,12 +132,7 @@ function Note<T>(props: T) {
                   ? resetNote(id)
                   : createNoteData();
               }}
-              text={
-                <FontAwesomeIcon
-                  icon={!inputIsActive && !textareaIsActive ? faTrash : faSave}
-                />
-              }
-            />
+            ><FontAwesomeIcon icon={!inputIsActive && !textareaIsActive ? faTrash : faSave}/></Button>
           </div>
           <div className="note__wrapper">
             <div className="note__content" onClick={() => changeText(true)}>

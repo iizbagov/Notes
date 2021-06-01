@@ -1,16 +1,16 @@
 import "../../index.css";
-import { PropsT } from "../../store/types/notesInterface";
+import { ButtonProps } from "../../store/types/notesInterface";
 
-function Button(props: PropsT) {
+function Button(props: ButtonProps) {
   return (
     <div
       className="button"
-      onClick={props.onClick !== undefined ? props.onClick : null}
+      onClick={ props.onClick }
       onDoubleClick={
-        props.onDoubleClick !== undefined ? props.onDoubleClick : null
+         props.onDoubleClick 
       }
     >
-      <button>{props.text}</button>
+      <button>{props.children}</button>
     </div>
   );
 }

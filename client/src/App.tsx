@@ -1,26 +1,30 @@
 import { BrowserRouter, Route } from "react-router-dom";
 import "./index.css";
-import { useReducer } from "react";
+import { createContext, useReducer } from "react";
 import Notes from "./components/Notes";
 import Note from "./components/Note";
-import MyContext from "./components/MyContext";
 import { reducer, initialState } from "./store";
-import { argsArray, PropsT } from './store/types/notesInterface';
+import { Action, ContextState } from './store/types/notesInterface';
+
+export const AppContext = createContext<ContextState>({} as ContextState);
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  function asyncMiddleware(dispatch: Function) {
-    return (action:Function, ...args: argsArray) => {
+  
+  function asyncMiddleware(dispatch: (action: Action) => void) {
+    return (action:(dispatch: (action: Action) => void, ...args: any[]) => void, ...args: any[]) => {
       return action.apply(null, [dispatch, ...args]);
     };
   }
 
+  console.log(dispatch);
+
   return (
-    <MyContext
+    <AppContext.Provider
       value={{
         state,
-        dispatchMiddlaware: asyncMiddleware(dispatch),
+        dispatchMiddleware: asyncMiddleware(dispatch),
       }}
     >
       <div className="App">
@@ -28,13 +32,13 @@ function App() {
           <Route exact path="/" render={() => <Notes />} />
           <Route
             path="/notes/:id"
-            render={(props: PropsT) => {
+            render={(props) => {
               return <Note />;
             }}
           />
         </BrowserRouter>
       </div>
-    </MyContext>
+    </AppContext.Provider>
   );
 }
 

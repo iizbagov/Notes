@@ -2,16 +2,15 @@ import "../../index.css";
 import Button from "../Button";
 import Popup from "../Popup";
 import { Link } from "react-router-dom";
-import { Context } from "../MyContext";
 import { useContext, useEffect, useState } from "react";
 import { getNotes } from "../../store";
 import Loader from "../Loader";
-import { PropsT, NoteData } from "../../store/types/notesInterface";
+import { NoteData } from "../../store/types/notesInterface";
+import { AppContext } from "../../App";
 
 function Notes<T>(props: T) {
-  const context = useContext(Context);
-  console.log(context);
-  const dispatch = context.dispatchMiddlaware;
+  const context = useContext(AppContext);
+  const dispatch = context.dispatchMiddleware;
   const notes = context.state.notes;
   const [open, setOpen] = useState<boolean>(false);
 
@@ -36,8 +35,7 @@ function Notes<T>(props: T) {
         onClick={() => {
           setOpen(!open);
         }}
-        text="+"
-      />
+      >+</Button>
       <div className="notes__container">
         {notes.length > 0 ? (
           notes.map((note: NoteData) => {

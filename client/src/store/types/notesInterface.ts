@@ -1,3 +1,6 @@
+import { ReactElement } from "react";
+
+
 export interface NoteData {
   title: string;
   text: string;
@@ -30,5 +33,24 @@ export type Action =
 export interface Params {
   id: string;
 }
-export type argsArray = [string | number | boolean | Object];
-export type PropsT = any;
+export interface PopupProps {
+  setOpen: () => void;
+}
+export interface ButtonProps {
+  onClick?: () => void;
+  onDoubleClick?: () => void;
+  children: ReactElement | string;
+}
+
+export interface SaveBunnerProps {
+  onClose: () => void;
+}
+export interface ContextState {
+  state: InitialState;
+  dispatchMiddleware: Function;
+}
+
+export interface ErrorPopupProps {
+
+}
+

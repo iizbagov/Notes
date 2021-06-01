@@ -1,10 +1,10 @@
 import { useContext } from "react";
-import { PropsT } from "../../store/types/notesInterface";
+import { AppContext } from "../../App";
+import { } from "../../store/types/notesInterface";
 import Button from "../Button";
-import { Context } from "../MyContext/index.js";
 
-function ErrorPopup(props: PropsT) {
-  const context = useContext(Context);
+function ErrorPopup<T>(props: T) {
+  const context = useContext(AppContext);
   const error = context.state.error;
 
   return (
@@ -16,14 +16,12 @@ function ErrorPopup(props: PropsT) {
             onClick={() => {
               error.onRetry();
             }}
-            text="Try again"
-          />
+          > Try again</Button>
           <Button
             onClick={() => {
               error.onCancel();
             }}
-            text="Cansel"
-          />
+          > Cansel</Button>
         </div>
       </div>
     </div>

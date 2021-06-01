@@ -1,18 +1,18 @@
 import "../../index.css";
 import Button from "../Button";
 import { useState } from "react";
-import { Context } from "../MyContext/index.js";
 import { useContext } from "react";
 import { createNote } from "../../store/actions";
-import { PropsT } from "../../store/types/notesInterface";
+import { PopupProps} from "../../store/types/notesInterface";
+import { AppContext } from "../../App";
 
-function Popup(props: PropsT) {
-  const context = useContext(Context);
+function Popup(props: PopupProps) {
+  const context = useContext(AppContext);
   const [noteValues, setNoteValues] = useState({
     title: "",
     text: "",
   });
-  const dispatch = context.dispatchMiddlaware;
+  const dispatch = context.dispatchMiddleware;
   const notes = context.state.notes;
 
   function createNoteData() {
@@ -39,14 +39,14 @@ function Popup(props: PropsT) {
           }
           placeholder="Text"
         ></textarea>
-        <Button onClick={createNoteData} text="Create note" />
+        <Button onClick={createNoteData}>Create Note</Button>
       </div>
       <Button
         onClick={() => {
           props.setOpen();
         }}
-        text=""
-      />
+        
+      > </Button>
     </div>
   );
 }
