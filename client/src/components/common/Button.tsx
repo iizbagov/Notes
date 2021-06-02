@@ -1,30 +1,27 @@
-import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { ReactElement } from "react";
-import "../../index.css";
 
 type Props = {
   onClick: () => void;
   onDoubleClick?: () => void;
+  className?: string;
   children: ReactElement | string;
-}
+};
 
-const StyledButton = styled('button')`
-  color: #f8f8f8;
-  background: #ffc102;
+const BaseButton = styled('button')`
+  border-radius: 12px;
   border: none;
-  border-radius: 10px;
-`
+  background-color: #ffc102;
+  color: #f8f8f8;
+  cursor: pointer;
+`;
 
-// const btn = css`{
-//   color: #f8f8f8;
-//   background: #ffc102;
-//   border: none;
-//   border-radius: 10px;
-// }
-// `;
+const StyledButton = ({ className, children }: Props) => {
+  return <BaseButton className={className}>{children}</BaseButton>;
+};
 
 function Button(props: Props) {
+
   return (
     <div
       onClick={ props.onClick }
@@ -32,11 +29,9 @@ function Button(props: Props) {
          props.onDoubleClick 
       }
     >
-      <StyledButton>{props.children}</StyledButton>
+      <StyledButton onClick={props.onClick} className={props.className}>{props.children}</StyledButton>
     </div>
   );
 }
 
-
 export default Button;
-

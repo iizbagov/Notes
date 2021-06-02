@@ -1,7 +1,7 @@
 import { useHistory, useParams } from "react-router";
 import "../../index.css";
-import Button from "../Button";
-import { library} from "@fortawesome/fontawesome-svg-core";
+import Button from "../common/Button";
+import { library } from "@fortawesome/fontawesome-svg-core";
 import {
   faTrash,
   faSave,
@@ -16,6 +16,61 @@ import ErrorPopup from "../ErrorPopup";
 import SaveBunner from "../SaveBunner";
 import { NoteData, Params } from "../types/notesInterface";
 import { AppContext } from "../Context";
+import styled from "@emotion/styled";
+import { FlexColCenter } from "../common/Position/Flex";
+import { AbsoluteTop } from "../common/Position/Position";
+import LightStyles from "../common/colors";
+
+const StyledRemoveButton = styled(Button)`
+  ${AbsoluteTop}
+  right: 50px;
+  height: 50px;
+  width: 50px;
+`;
+const StyledBackButton = styled(Button)`
+  ${AbsoluteTop}
+  left: 50px;
+  height: 50px;
+  width: 50px;
+`;
+const StyledNote = styled("div")`
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  ${FlexColCenter}
+`;
+const NoteHeader = styled("div")`
+  text-align: center;
+  margin: 30px 0;
+`;
+const NoteWrapper = styled("div")`
+  max-width: 1170px;
+  min-width: 600px;
+  margin: 0 auto;
+`;
+const NoteContent = styled("div")`
+  width: 100%;
+  text-align: center;
+`;
+const NoteInput = styled("input")`
+  margin-top: -10px;
+  width: 600px;
+  height: 50px;
+  border-radius: 10px;
+  font-size: 22px;
+  border: 1px solid ${LightStyles.headersColorLight};
+  padding: 0 15px;
+`
+const NoteTextarea = styled("textarea")`
+  margin-bottom: 50px;
+  padding: 15px;
+  height: 400px;
+  width: 600px;
+  font-size: 22px;
+  border: 1px solid ${LightStyles.headersColorLight};
+  border-radius: 10px;
+  resize: none;
+`
 
 function Note() {
   library.add(faTrash, faSave, faLongArrowAltLeft);
@@ -24,12 +79,12 @@ function Note() {
   const notes = context.state.notes;
   const hasError = context.state.error.hasError;
   const history = useHistory();
-  const params: Params = useParams()
+  const params: Params = useParams();
   const id: string = params.id;
   const [noteValues, setNoteValues] = useState<NoteData>({
-    title: '',
-    text: '',
-    _id: ''
+    title: "",
+    text: "",
+    _id: "",
   });
   const [inputIsActive, setInputIsActive] = useState(false);
   const [textareaIsActive, setTextareaIsActive] = useState(false);
@@ -93,25 +148,22 @@ function Note() {
   }
 
   return (
-    <div className="note__container">
+    <div>
       {notes.length > 0 ? (
-        <div className="note">
+        <StyledNote>
           {hasError ? <ErrorPopup /> : null}
           {isSaved ? <SaveBunner onClose={onClose} /> : null}
-          <div className="note__header">
-            <div className="note__header-back_button">
-              <Button
-                onClick={goToNotes}
-              >
+          <NoteHeader>
+            <div>
+              <StyledBackButton onClick={goToNotes}>
                 <FontAwesomeIcon icon={faLongArrowAltLeft} />
-              </Button>
+              </StyledBackButton>
             </div>
             <div
-              className="note__header-title"
               onClick={() => changeTitle(true)}
             >
               {inputIsActive ? (
-                <input
+                <NoteInput
                   value={noteValues.title}
                   onChange={(e) => {
                     setNoteValues((node) => {
@@ -121,23 +173,27 @@ function Note() {
                       };
                     });
                   }}
-                ></input>
+                ></NoteInput>
               ) : (
                 <h1>{noteValues.title}</h1>
               )}
             </div>
-            <Button
+            <StyledRemoveButton
               onClick={() => {
                 !inputIsActive && !textareaIsActive
                   ? resetNote(id)
                   : createNoteData();
               }}
-            ><FontAwesomeIcon icon={!inputIsActive && !textareaIsActive ? faTrash : faSave}/></Button>
-          </div>
-          <div className="note__wrapper">
-            <div className="note__content" onClick={() => changeText(true)}>
+            >
+              <FontAwesomeIcon
+                icon={!inputIsActive && !textareaIsActive ? faTrash : faSave}
+              />
+            </StyledRemoveButton>
+          </NoteHeader>
+          <NoteWrapper>
+            <NoteContent onClick={() => changeText(true)}>
               {textareaIsActive ? (
-                <textarea
+                <NoteTextarea
                   value={noteValues.text}
                   onChange={(e) => {
                     setNoteValues((node) => {
@@ -147,13 +203,13 @@ function Note() {
                       };
                     });
                   }}
-                ></textarea>
+                ></NoteTextarea>
               ) : (
                 <div>{noteValues.text}</div>
               )}
-            </div>
-          </div>
-        </div>
+            </NoteContent>
+          </NoteWrapper>
+        </StyledNote>
       ) : (
         <Loader />
       )}
