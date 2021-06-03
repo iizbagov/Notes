@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import { useEffect } from "react";
-import LightStyles from "../common/colors";
+import colors from "../common/colors";
 
 type Props = {
   onClose: () => void;
@@ -11,8 +11,8 @@ const StyledBunner = styled('div')`
   bottom: 50px;
   right: 50%;
   padding: 15px;
-  background: ${LightStyles.activeLight};
-  color: ${LightStyles.mainColorLight};
+  background: ${colors.activeLight};
+  color: ${colors.mainColorLight};
   transform: translate(50%, 0);
   border-radius: 10px;
 `

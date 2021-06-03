@@ -8,12 +8,13 @@ import Loader from "../Loader";
 import { NoteData } from "../types/notesInterface";
 import { AppContext } from "../Context";
 import styled from "@emotion/styled";
-import { Flex, FlexCenter } from "../common/Position/Flex";
-import { FixedBot } from "../common/Position/Position";
-import LightStyles from "../common/colors";
+import { Column, Row } from "../common/Flex";
+import colors from "../common/colors";
+import { AppLink } from "../common/AppLink";
 
 const StyledAddButton = styled(Button)`
-  ${FixedBot}
+  position: absolute;
+  bottom: 50px;
   right: 50px;
   height: 50px;
   width: 50px;
@@ -22,10 +23,8 @@ const StyledAddButton = styled(Button)`
   cursor: pointer;
 `;
 
-const StyleNotes = styled("div")`
+const StyledNotes = styled(Column)`
   position: relative;
-  ${Flex}
-  flex-direction: column;
   align-items: center;
   width: 100%;
   height: 100vh;
@@ -37,15 +36,20 @@ const StyledHeader = styled("div")`
 `;
 const StyledTitle = styled("h2")`
   margin-bottom: 25px;
+  color: #2b2b2b;
 `;
+const StyledSubtitle = styled("h4")`
+  color: #2b2b2b;
+`
 const NotesContainer = styled("div")`
   margin-top: 30px;
   height: 100%;
   width: 600px;
 `;
-const NotesLoader = styled("div")`
+const NotesLoader = styled(Row)`
   height: 100%;
-  ${FlexCenter}
+  justify-content: center;
+  align-items: center;
 `;
 
 const NoteLink = styled('div')`
@@ -55,8 +59,12 @@ const NoteLink = styled('div')`
   border-radius: 10px;
   margin-bottom: 10px;
   &:hover {
-    box-shadow: 5px 5px 5px ${LightStyles.noteShadow};
+    box-shadow: 5px 5px 5px ${colors.noteShadow};
   }
+`
+const NoteTitle = styled('h2')`
+  color: #2b2b2b;
+  margin-bottom: 10px;
 `
 
 const NoteP = styled('p')`
@@ -75,7 +83,7 @@ function Notes() {
   useEffect(() => dispatch(getNotes), [getNotes]);
 
   return (
-    <StyleNotes>
+    <StyledNotes>
       {open ? (
         <Popup
           setOpen={() => {
@@ -85,7 +93,7 @@ function Notes() {
       ) : null}
       <StyledHeader>
         <StyledTitle>Notes</StyledTitle>
-        <h4>Enter your note or create a new note</h4>
+        <StyledSubtitle>Enter your note or create a new note</StyledSubtitle>
       </StyledHeader>
       <StyledAddButton
         onClick={() => {
@@ -99,12 +107,12 @@ function Notes() {
           notes.map((note: NoteData) => {
             return (
               <div key={note._id}>
-                <Link to={`/notes/${note._id}`}>
+                <AppLink to={`/notes/${note._id}`}>
                   <NoteLink>
-                    <h2>{note.title}</h2>
+                    <NoteTitle>{note.title}</NoteTitle>
                     <NoteP>{note.text}</NoteP>
                   </NoteLink>
-                </Link>
+                </AppLink>
               </div>
             );
           })
@@ -114,7 +122,7 @@ function Notes() {
           </NotesLoader>
         )}
       </NotesContainer>
-    </StyleNotes>
+    </StyledNotes>
   );
 }
 

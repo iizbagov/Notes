@@ -17,27 +17,28 @@ import SaveBunner from "../SaveBunner";
 import { NoteData, Params } from "../types/notesInterface";
 import { AppContext } from "../Context";
 import styled from "@emotion/styled";
-import { FlexColCenter } from "../common/Position/Flex";
-import { AbsoluteTop } from "../common/Position/Position";
-import LightStyles from "../common/colors";
+import { Column } from "../common/Flex";
+import colors from "../common/colors";
 
 const StyledRemoveButton = styled(Button)`
-  ${AbsoluteTop}
+  position: absolute;
+  top: 30px;
   right: 50px;
   height: 50px;
   width: 50px;
 `;
 const StyledBackButton = styled(Button)`
-  ${AbsoluteTop}
+  position: absolute;
+  top: 30px;
   left: 50px;
   height: 50px;
   width: 50px;
 `;
-const StyledNote = styled("div")`
+const StyledNote = styled(Column)`
   position: relative;
   width: 100%;
   height: 100vh;
-  ${FlexColCenter}
+  align-items: center;
 `;
 const NoteHeader = styled("div")`
   text-align: center;
@@ -58,7 +59,7 @@ const NoteInput = styled("input")`
   height: 50px;
   border-radius: 10px;
   font-size: 22px;
-  border: 1px solid ${LightStyles.headersColorLight};
+  border: 1px solid ${colors.headersColorLight};
   padding: 0 15px;
 `
 const NoteTextarea = styled("textarea")`
@@ -67,7 +68,7 @@ const NoteTextarea = styled("textarea")`
   height: 400px;
   width: 600px;
   font-size: 22px;
-  border: 1px solid ${LightStyles.headersColorLight};
+  border: 1px solid ${colors.headersColorLight};
   border-radius: 10px;
   resize: none;
 `

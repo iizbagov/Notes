@@ -17,21 +17,9 @@ body {
   position: relative;
 }
 
-a {
-  color: #000;
-  text-decoration: none;
-  color: #828282;
-}
-
-h2, h4 {
-  color: #2b2b2b;
-}
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
 
-textarea {
-  letter-spacing: -0.09em;
-}

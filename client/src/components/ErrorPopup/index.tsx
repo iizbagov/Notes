@@ -3,12 +3,11 @@ import { AppContext } from "../Context";
 import { } from "../types/notesInterface";
 import Button from "../common/Button";
 import styled from "@emotion/styled";
-import { CenterAbsolute, PopupAbsolute } from "../common/Position/Position";
-import { FlexCenter } from "../common/Position/Flex";
-import LightStyles from "../common/colors";
+import { centerAbsoluteCss } from "../common/Position";
+import { Column, Row } from "../common/Flex";
+import colors from "../common/colors";
 
 const StyledErrorButton = styled(Button)`
-    ${FlexCenter}
     font-size: 22px;
     margin-top: 30px;
     width: 150px;
@@ -20,28 +19,23 @@ const ErrPopup = styled('div')`
   content: '';
   height: 100vh;
   width: 100%;
-  background: ${LightStyles.shadowColor};
-  ${PopupAbsolute}
+  background: ${colors.popupBg};
   border-radius: 0;
 `
 
-const ErrContainer = styled('div')`
-  ${CenterAbsolute}
+const ErrContainer = styled(Column)`
+  ${centerAbsoluteCss}
   z-index: 15;
   background: #fff;
   height: 500px;
   width: 400px;
   font-size: 25px;
   font-weight: 700;
-  display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
   border-radius: 10px;
 `
-const ErrButtons = styled('div')`
-display: flex;
-`
+const ErrButtons = styled(Row)``;
 
 function ErrorPopup() {
   const context = useContext(AppContext);

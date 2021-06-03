@@ -5,9 +5,9 @@ import { useContext } from "react";
 import { createNote } from "../../store/actions";
 import { AppContext } from "../Context";
 import styled from "@emotion/styled";
-import { FlexColCenter } from "../common/Position/Flex";
-import { CenterAbsolute, PopupAbsolute } from "../common/Position/Position";
-import LightStyles from "../common/colors";
+import { centerAbsoluteCss } from "../common/Position";
+import colors from "../common/colors";
+import { Column } from "../common/Flex";
 
 type Props = {
   setOpen: () => void;
@@ -15,8 +15,8 @@ type Props = {
 
 const StyledCreateButton = styled(Button)`
   position: relative;
-  color: ${LightStyles.mainColorLight};
-  background: ${LightStyles.activeLight};
+  color: ${colors.mainColorLight};
+  background: ${colors.activeLight};
   text-transform: uppercase;
   font-weight: 700;
   height: 50px;
@@ -30,18 +30,22 @@ const StyledDarkFone = styled(Button)`
   content: "";
   height: 100vh;
   width: 100%;
-  background: ${LightStyles.shadowColor};
-  ${PopupAbsolute}
+  background: ${colors.popupBg};
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
   border-radius: 0;
 `;
 
-const PopupContainer = styled("div")`
-  ${CenterAbsolute}
+const PopupContainer = styled(Column)`
+  ${centerAbsoluteCss}
   z-index: 15;
   background: #fff;
   height: 500px;
   width: 400px;
-  ${FlexColCenter}
+  align-items: center;
   justify-content: center;
   border-radius: 10px;
 `;
@@ -51,7 +55,7 @@ const PopupInput = styled("input")`
   height: 40px;
   border-radius: 10px;
   font-size: 22px;
-  border: 1px solid ${LightStyles.headersColorLight};
+  border: 1px solid ${colors.headersColorLight};
   padding: 0 15px;
 `;
 
@@ -61,7 +65,7 @@ const PopupTextarea = styled("textarea")`
   height: 150px;
   width: 250px;
   font-size: 22px;
-  border: 1px solid ${LightStyles.headersColorLight};
+  border: 1px solid ${colors.headersColorLight};
   border-radius: 10px;
   resize: none;
   letter-spacing: -0.09em;
