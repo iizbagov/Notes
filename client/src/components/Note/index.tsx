@@ -19,6 +19,8 @@ import { AppContext } from "../Context";
 import styled from "@emotion/styled";
 import { Column } from "../common/Flex";
 import colors from "../common/colors";
+import Input from "../common/Input";
+import Textarea from "../common/Textarea";
 
 const StyledRemoveButton = styled(Button)`
   position: absolute;
@@ -53,7 +55,7 @@ const NoteContent = styled("div")`
   width: 100%;
   text-align: center;
 `;
-const NoteInput = styled("input")`
+const NoteInput = styled(Input)`
   margin-top: -10px;
   width: 600px;
   height: 50px;
@@ -62,7 +64,7 @@ const NoteInput = styled("input")`
   border: 1px solid ${colors.headersColorLight};
   padding: 0 15px;
 `
-const NoteTextarea = styled("textarea")`
+const NoteTextarea = styled(Textarea)`
   margin-bottom: 50px;
   padding: 15px;
   height: 400px;
@@ -75,6 +77,7 @@ const NoteTextarea = styled("textarea")`
 
 function Note() {
   library.add(faTrash, faSave, faLongArrowAltLeft);
+
   const context = useContext(AppContext);
   const dispatch = context.dispatchMiddleware;
   const notes = context.state.notes;

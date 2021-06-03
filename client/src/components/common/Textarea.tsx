@@ -8,15 +8,11 @@ type Props = {
 }
 
 const BaseTextarea = styled('textarea')`
-  letter-spacing: 0.09em;
+  letter-spacing: -0.09em;
 `
-const StyledTextarea = ({className}: Props) => {
-    return <BaseTextarea className={className}></BaseTextarea>
-}
-
 function Textarea (props: Props) {
     return (
-        <StyledTextarea className={props.className} onChange={props.onChange} value={props.value!} placeholder={props.value!}></StyledTextarea>
+        <BaseTextarea className={props.className} onChange={props.onChange} value={props.value} placeholder={props.value} />
     )
 }
 

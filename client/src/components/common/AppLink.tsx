@@ -1,20 +1,17 @@
 import styled from "@emotion/styled";
-import { ReactElement } from "react";
-import { Link } from "react-router-dom";
-
-type Props = {
-    to: string;
-    children: ReactElement;
-}
+import { Link, LinkProps } from "react-router-dom";
+import colors from "../common/colors";
 
 const BaseLink = styled(Link)`
-color: #000;
 text-decoration: none;
-color: #828282;
+color: ${colors.linkColor};
 `
 
-export function AppLink(props : Props) {
+export function AppLink(props : LinkProps) {
+
+    const {children, ...rest} = props
+
     return(
-        <BaseLink to={props.to}>{props.children}</BaseLink>
+        <BaseLink {...rest}>{children}</BaseLink>
     )
 }

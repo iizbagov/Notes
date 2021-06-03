@@ -10,13 +10,10 @@ type Props = {
 const BaseInput = styled('input')`
 
 `
-const StyledInput = ({className}: Props) => {
-    return <BaseInput className={className}></BaseInput>
-}
 
 function Input (props: Props) {
     return (
-        <StyledInput className={props.className} onChange={props.onChange} value={props.value!} placeholder={props.value!}></StyledInput>
+        <BaseInput className={props.className} onChange={props.onChange} value={props.value} placeholder={props.value} />
     )
 }
 

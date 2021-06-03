@@ -6,10 +6,11 @@ import styled from "@emotion/styled";
 import { centerAbsoluteCss } from "../common/Position";
 import { Column, Row } from "../common/Flex";
 import colors from "../common/colors";
+import space from "../common/space";
 
 const StyledErrorButton = styled(Button)`
     font-size: 22px;
-    margin-top: 30px;
+    ${space.defaultTopMargin}
     width: 150px;
     height: 50px;
     margin-right: 20px;

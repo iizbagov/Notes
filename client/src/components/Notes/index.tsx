@@ -1,7 +1,6 @@
 import "../../index.css";
 import Button from "../common/Button";
 import Popup from "../Popup";
-import { Link } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { getNotes } from "../../store";
 import Loader from "../Loader";
@@ -10,6 +9,7 @@ import { AppContext } from "../Context";
 import styled from "@emotion/styled";
 import { Column, Row } from "../common/Flex";
 import colors from "../common/colors";
+import space from '../common/space';
 import { AppLink } from "../common/AppLink";
 
 const StyledAddButton = styled(Button)`
@@ -36,13 +36,13 @@ const StyledHeader = styled("div")`
 `;
 const StyledTitle = styled("h2")`
   margin-bottom: 25px;
-  color: #2b2b2b;
+  color: ${colors.titleColor};
 `;
 const StyledSubtitle = styled("h4")`
-  color: #2b2b2b;
+  color: ${colors.titleColor};
 `
 const NotesContainer = styled("div")`
-  margin-top: 30px;
+  ${space.defaultTopMargin}
   height: 100%;
   width: 600px;
 `;
@@ -57,14 +57,14 @@ const NoteLink = styled('div')`
   background: #fff;
   padding: 15px;
   border-radius: 10px;
-  margin-bottom: 10px;
+  ${space.textBottomMargin}
   &:hover {
     box-shadow: 5px 5px 5px ${colors.noteShadow};
   }
 `
 const NoteTitle = styled('h2')`
-  color: #2b2b2b;
-  margin-bottom: 10px;
+  color: ${colors.titleColor};
+  ${space.textBottomMargin}
 `
 
 const NoteP = styled('p')`
