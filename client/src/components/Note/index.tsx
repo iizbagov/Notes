@@ -21,6 +21,7 @@ import { Column } from "../common/Flex";
 import colors from "../common/colors";
 import Input from "../common/Input";
 import Textarea from "../common/Textarea";
+import { useTheme } from "@emotion/react";
 
 const StyledRemoveButton = styled(Button)`
   position: absolute;
@@ -63,7 +64,7 @@ const NoteInput = styled(Input)`
   font-size: 22px;
   border: 1px solid ${colors.headersColorLight};
   padding: 0 15px;
-`
+`;
 const NoteTextarea = styled(Textarea)`
   margin-bottom: 50px;
   padding: 15px;
@@ -73,7 +74,7 @@ const NoteTextarea = styled(Textarea)`
   border: 1px solid ${colors.headersColorLight};
   border-radius: 10px;
   resize: none;
-`
+`;
 
 function Note() {
   library.add(faTrash, faSave, faLongArrowAltLeft);
@@ -163,9 +164,7 @@ function Note() {
                 <FontAwesomeIcon icon={faLongArrowAltLeft} />
               </StyledBackButton>
             </div>
-            <div
-              onClick={() => changeTitle(true)}
-            >
+            <div onClick={() => changeTitle(true)}>
               {inputIsActive ? (
                 <NoteInput
                   value={noteValues.title}

@@ -8,7 +8,7 @@ type Props = {
   children: ReactElement | string;
 };
 
-const BaseButton = styled('button')`
+const BaseButton = styled("button")`
   border-radius: 12px;
   border: none;
   background-color: #ffc102;
@@ -21,15 +21,11 @@ const StyledButton = ({ className, children }: Props) => {
 };
 
 function Button(props: Props) {
-
   return (
-    <div
-      onClick={ props.onClick }
-      onDoubleClick={
-         props.onDoubleClick 
-      }
-    >
-      <StyledButton onClick={props.onClick} className={props.className}>{props.children}</StyledButton>
+    <div onClick={props.onClick} onDoubleClick={props.onDoubleClick}>
+      <StyledButton onClick={props.onClick} className={props.className}>
+        {props.children}
+      </StyledButton>
     </div>
   );
 }

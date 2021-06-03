@@ -4,9 +4,9 @@ import colors from "../common/colors";
 
 type Props = {
   onClose: () => void;
-}
+};
 
-const StyledBunner = styled('div')`
+const StyledBunner = styled("div")`
   position: absolute;
   bottom: 50px;
   right: 50%;
@@ -15,7 +15,7 @@ const StyledBunner = styled('div')`
   color: ${colors.mainColorLight};
   transform: translate(50%, 0);
   border-radius: 10px;
-`
+`;
 
 function SaveBunner(props: Props) {
   useEffect(() => {

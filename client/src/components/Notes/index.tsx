@@ -9,8 +9,9 @@ import { AppContext } from "../Context";
 import styled from "@emotion/styled";
 import { Column, Row } from "../common/Flex";
 import colors from "../common/colors";
-import space from '../common/space';
+import space from "../common/space";
 import { AppLink } from "../common/AppLink";
+import { Theme, useTheme } from "@emotion/react";
 
 const StyledAddButton = styled(Button)`
   position: absolute;
@@ -36,11 +37,11 @@ const StyledHeader = styled("div")`
 `;
 const StyledTitle = styled("h2")`
   margin-bottom: 25px;
-  color: ${colors.titleColor};
+  color: ${colors.titleColorLight};
 `;
 const StyledSubtitle = styled("h4")`
-  color: ${colors.titleColor};
-`
+  color: ${colors.titleColorLight};
+`;
 const NotesContainer = styled("div")`
   ${space.defaultTopMargin}
   height: 100%;
@@ -52,7 +53,7 @@ const NotesLoader = styled(Row)`
   align-items: center;
 `;
 
-const NoteLink = styled('div')`
+const NoteLink = styled("div")`
   width: 100%;
   background: #fff;
   padding: 15px;
@@ -61,24 +62,30 @@ const NoteLink = styled('div')`
   &:hover {
     box-shadow: 5px 5px 5px ${colors.noteShadow};
   }
-`
-const NoteTitle = styled('h2')`
-  color: ${colors.titleColor};
+`;
+const NoteTitle = styled("h2")<Theme>`
+  color: ${(props: Theme) => {
+    return props.theme.isCompleted
+      ? props.theme.titleColor.light
+      : props.theme.titleColor.dark;
+  }};
   ${space.textBottomMargin}
-`
+`;
 
-const NoteP = styled('p')`
+const NoteP = styled("p")`
   width: 400px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-`
+`;
 
 function Notes() {
   const context = useContext(AppContext);
   const dispatch = context.dispatchMiddleware;
   const notes = context.state.notes;
   const [open, setOpen] = useState<boolean>(false);
+
+  const theme = useTheme();
 
   useEffect(() => dispatch(getNotes), [getNotes]);
 
