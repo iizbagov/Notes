@@ -9,10 +9,10 @@ export default {
   linkColorLight: "#828282",
   titleColorLight: "#000",
 
-  noteBgDark: "#cdcdcd",
+  noteBgDark: "#20232A",
   headersColorDark: "#fff",
-  activeDark: "#00d4d4",
-  mainColorDark: "#000",
+  activeDark: "#61DAFB",
+  mainColorDark: "#282C34",
   linkColorDark: "#fff",
   titleColorDark: "#fff",
 };

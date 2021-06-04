@@ -26,7 +26,8 @@ const ErrPopup = styled("div")`
 const ErrContainer = styled(Column)`
   ${centerAbsoluteCss}
   z-index: 15;
-  background: #fff;
+  background: ${({ theme }) =>
+    theme.isCompleted ? theme.mainBackground.light : theme.mainBackground.dark};
   height: 500px;
   width: 400px;
   font-size: 25px;

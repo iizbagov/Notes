@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import { ReactElement } from "react";
 
 type Props = {
-  onClick: () => void;
+  onClick: any;
   onDoubleClick?: () => void;
   className?: string;
   children: ReactElement | string;
@@ -11,8 +11,14 @@ type Props = {
 const BaseButton = styled("button")`
   border-radius: 12px;
   border: none;
-  background-color: #ffc102;
-  color: #f8f8f8;
+  background: ${({ theme }) => {
+    return theme.isCompleted ? theme.buttonColor.light : theme.buttonColor.dark;
+  }};
+  color: ${({ theme }) => {
+    return theme.isCompleted
+      ? theme.mainBackground.light
+      : theme.mainBackground.dark;
+  }};
   cursor: pointer;
 `;
 

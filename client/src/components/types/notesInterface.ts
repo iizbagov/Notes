@@ -1,3 +1,5 @@
+import { ThemesEnum } from "./enums";
+
 export interface NoteData {
   title: string;
   text: string;
@@ -15,17 +17,19 @@ export interface InitialState {
   error: Error;
 }
 
-export type Action =
-  {
-    type:string;
-  } & ({
-    notes: Array<NoteData>;
-  } & {
-    payload: Error;
-  } | {
-    notes: Array<NoteData>;
-    payload: Error;
-  });
+export type Action = {
+  type: string;
+} & (
+  | ({
+      notes: Array<NoteData>;
+    } & {
+      payload: Error;
+    })
+  | {
+      notes: Array<NoteData>;
+      payload: Error;
+    }
+);
 
 export interface Params {
   id: string;
@@ -34,6 +38,6 @@ export interface Params {
 export interface ContextState {
   state: InitialState;
   dispatchMiddleware: (dispatch: (...args: any) => void, ...args: any) => void;
+  themeState: ThemesEnum.light | ThemesEnum.dark;
+  themeChanger: (text: ThemesEnum.light | ThemesEnum.dark) => void;
 }
-
-

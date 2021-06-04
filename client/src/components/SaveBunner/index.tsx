@@ -11,8 +11,10 @@ const StyledBunner = styled("div")`
   bottom: 50px;
   right: 50%;
   padding: 15px;
-  background: ${colors.activeLight};
-  color: ${colors.mainColorLight};
+  background: ${({ theme }) =>
+    theme.isCompleted ? theme.buttonColor.light : theme.buttonColor.dark};
+  color: ${({ theme }) =>
+    theme.isCompleted ? theme.mainBackground.light : theme.mainBackground.dark};
   transform: translate(50%, 0);
   border-radius: 10px;
 `;

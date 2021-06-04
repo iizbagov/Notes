@@ -18,10 +18,8 @@ import { NoteData, Params } from "../types/notesInterface";
 import { AppContext } from "../Context";
 import styled from "@emotion/styled";
 import { Column } from "../common/Flex";
-import colors from "../common/colors";
 import Input from "../common/Input";
 import Textarea from "../common/Textarea";
-import { useTheme } from "@emotion/react";
 
 const StyledRemoveButton = styled(Button)`
   position: absolute;
@@ -42,10 +40,16 @@ const StyledNote = styled(Column)`
   width: 100%;
   height: 100vh;
   align-items: center;
+  background: ${({ theme }) =>
+    theme.isCompleted
+      ? theme.mainBackground.light
+      : theme.mainBackground.dark}};
 `;
 const NoteHeader = styled("div")`
   text-align: center;
   margin: 30px 0;
+  color: ${({ theme }) =>
+    theme.isCompleted ? theme.linkColor.light : theme.linkColor.dark}};
 `;
 const NoteWrapper = styled("div")`
   max-width: 1170px;
@@ -55,6 +59,8 @@ const NoteWrapper = styled("div")`
 const NoteContent = styled("div")`
   width: 100%;
   text-align: center;
+  color: ${({ theme }) =>
+    theme.isCompleted ? theme.linkColor.light : theme.linkColor.dark}};
 `;
 const NoteInput = styled(Input)`
   margin-top: -10px;
@@ -62,7 +68,9 @@ const NoteInput = styled(Input)`
   height: 50px;
   border-radius: 10px;
   font-size: 22px;
-  border: 1px solid ${colors.headersColorLight};
+  border: 1px solid
+    ${({ theme }) =>
+      theme.isCompleted ? theme.headersColor.light : theme.headersColor.dark};
   padding: 0 15px;
 `;
 const NoteTextarea = styled(Textarea)`
@@ -71,7 +79,9 @@ const NoteTextarea = styled(Textarea)`
   height: 400px;
   width: 600px;
   font-size: 22px;
-  border: 1px solid ${colors.headersColorLight};
+  border: 1px solid
+    ${({ theme }) =>
+      theme.isCompleted ? theme.headersColor.light : theme.headersColor.dark};
   border-radius: 10px;
   resize: none;
 `;

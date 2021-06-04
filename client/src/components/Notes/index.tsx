@@ -11,7 +11,12 @@ import { Column, Row } from "../common/Flex";
 import colors from "../common/colors";
 import space from "../common/space";
 import { AppLink } from "../common/AppLink";
-import { Theme, useTheme } from "@emotion/react";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { faSun, faMoon } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useTheme } from "@emotion/react";
+import { ThemesEnum } from "../types/enums";
+import { useDarkMode } from "../../useDarkModeHook";
 
 const StyledAddButton = styled(Button)`
   position: absolute;
@@ -29,18 +34,29 @@ const StyledNotes = styled(Column)`
   align-items: center;
   width: 100%;
   height: 100vh;
+  background: ${({ theme }) =>
+    theme.isCompleted
+      ? theme.mainBackground.light
+      : theme.mainBackground.dark}};
 `;
 
 const StyledHeader = styled("div")`
   text-align: center;
   margin-top: 25px;
+  color: ${({ theme }) => {
+    return theme.isCompleted ? theme.titleColor.light : theme.titleColor.dark;
+  }};
 `;
 const StyledTitle = styled("h2")`
   margin-bottom: 25px;
-  color: ${colors.titleColorLight};
+  color: ${({ theme }) => {
+    return theme.isCompleted ? theme.titleColor.light : theme.titleColor.dark;
+  }};
 `;
 const StyledSubtitle = styled("h4")`
-  color: ${colors.titleColorLight};
+  color: ${({ theme }) => {
+    return theme.isCompleted ? theme.titleColor.light : theme.titleColor.dark;
+  }};
 `;
 const NotesContainer = styled("div")`
   ${space.defaultTopMargin}
@@ -55,7 +71,8 @@ const NotesLoader = styled(Row)`
 
 const NoteLink = styled("div")`
   width: 100%;
-  background: #fff;
+  background: ${({ theme }) =>
+    theme.isCompleted ? theme.noteBgColor.light : theme.noteBgColor.dark};
   padding: 15px;
   border-radius: 10px;
   ${space.textBottomMargin}
@@ -63,12 +80,9 @@ const NoteLink = styled("div")`
     box-shadow: 5px 5px 5px ${colors.noteShadow};
   }
 `;
-const NoteTitle = styled("h2")<Theme>`
-  color: ${(props: Theme) => {
-    return props.theme.isCompleted
-      ? props.theme.titleColor.light
-      : props.theme.titleColor.dark;
-  }};
+const NoteTitle = styled("h2")`
+  color: ${({ theme }) =>
+    theme.isCompleted ? theme.titleColor.light : theme.titleColor.dark};
   ${space.textBottomMargin}
 `;
 
@@ -77,15 +91,28 @@ const NoteP = styled("p")`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  color: ${({ theme }) =>
+    theme.isCompleted ? theme.titleColor.light : theme.titleColor.dark};
+`;
+
+const ThemeToggler = styled(Button)`
+  position: absolute;
+  cursor: pointer;
+  left: 50px;
+  bottom: 50px;
+  height: 50px;
+  width: 50px;
+  font-size: 24px;
 `;
 
 function Notes() {
+  library.add(faSun, faMoon);
+
   const context = useContext(AppContext);
   const dispatch = context.dispatchMiddleware;
   const notes = context.state.notes;
   const [open, setOpen] = useState<boolean>(false);
-
-  const theme = useTheme();
+  const [themeState, toggleTheme] = useDarkMode();
 
   useEffect(() => dispatch(getNotes), [getNotes]);
 
@@ -98,6 +125,14 @@ function Notes() {
           }}
         />
       ) : null}
+
+      <ThemeToggler onClick={toggleTheme}>
+        {themeState === ThemesEnum.light ? (
+          <FontAwesomeIcon icon={faSun} />
+        ) : (
+          <FontAwesomeIcon icon={faMoon} />
+        )}
+      </ThemeToggler>
       <StyledHeader>
         <StyledTitle>Notes</StyledTitle>
         <StyledSubtitle>Enter your note or create a new note</StyledSubtitle>

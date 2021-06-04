@@ -15,8 +15,6 @@ type Props = {
 
 const StyledCreateButton = styled(Button)`
   position: relative;
-  color: ${colors.mainColorLight};
-  background: ${colors.activeLight};
   text-transform: uppercase;
   font-weight: 700;
   height: 50px;
@@ -42,7 +40,8 @@ const StyledDarkFone = styled(Button)`
 const PopupContainer = styled(Column)`
   ${centerAbsoluteCss}
   z-index: 15;
-  background: #fff;
+  background: ${({ theme }) =>
+    theme.isCompleted ? theme.mainBackground.light : theme.mainBackground.dark};
   height: 500px;
   width: 400px;
   align-items: center;
