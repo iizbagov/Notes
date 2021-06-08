@@ -40,16 +40,12 @@ const StyledNote = styled(Column)`
   width: 100%;
   height: 100vh;
   align-items: center;
-  background: ${({ theme }) =>
-    theme.isCompleted
-      ? theme.mainBackground.light
-      : theme.mainBackground.dark}};
+  background: ${({ theme }) => theme.mainBackground};
 `;
 const NoteHeader = styled("div")`
   text-align: center;
   margin: 30px 0;
-  color: ${({ theme }) =>
-    theme.isCompleted ? theme.linkColor.light : theme.linkColor.dark}};
+  color: ${({ theme }) => theme.linkColor};
 `;
 const NoteWrapper = styled("div")`
   max-width: 1170px;
@@ -59,8 +55,7 @@ const NoteWrapper = styled("div")`
 const NoteContent = styled("div")`
   width: 100%;
   text-align: center;
-  color: ${({ theme }) =>
-    theme.isCompleted ? theme.linkColor.light : theme.linkColor.dark}};
+  color: ${({ theme }) => theme.linkColor};
 `;
 const NoteInput = styled(Input)`
   margin-top: -10px;
@@ -68,9 +63,7 @@ const NoteInput = styled(Input)`
   height: 50px;
   border-radius: 10px;
   font-size: 22px;
-  border: 1px solid
-    ${({ theme }) =>
-      theme.isCompleted ? theme.headersColor.light : theme.headersColor.dark};
+  border: 1px solid ${({ theme }) => theme.headersColor};
   padding: 0 15px;
 `;
 const NoteTextarea = styled(Textarea)`
@@ -79,9 +72,7 @@ const NoteTextarea = styled(Textarea)`
   height: 400px;
   width: 600px;
   font-size: 22px;
-  border: 1px solid
-    ${({ theme }) =>
-      theme.isCompleted ? theme.headersColor.light : theme.headersColor.dark};
+  border: 1px solid ${({ theme }) => theme.headersColor};
   border-radius: 10px;
   resize: none;
 `;

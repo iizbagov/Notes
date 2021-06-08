@@ -40,8 +40,7 @@ const StyledDarkFone = styled(Button)`
 const PopupContainer = styled(Column)`
   ${centerAbsoluteCss}
   z-index: 15;
-  background: ${({ theme }) =>
-    theme.isCompleted ? theme.mainBackground.light : theme.mainBackground.dark};
+  background: ${({ theme }) => theme.mainBackground};
   height: 500px;
   width: 400px;
   align-items: center;

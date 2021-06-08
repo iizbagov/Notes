@@ -1,34 +1,31 @@
 import { useCallback, useContext, useEffect, useState } from "react";
 import { AppContext } from "./components/Context";
-import { ThemesEnum } from "./components/types/enums";
+import { Themes } from "./components/types/enums";
+import { themeToggler } from "./store";
 
 export const useDarkMode = () => {
   const context = useContext(AppContext);
-  const [themeState, setThemeState] = useState<
-    ThemesEnum.light | ThemesEnum.dark
-  >(ThemesEnum.light);
+  const theme = context.state.theme;
+  const dispatch = context.dispatchMiddleware;
+  const [themeState, setThemeState] =
+    useState<Themes.light | Themes.dark>(theme);
 
   const changeTheme = useCallback(
-    (theme: ThemesEnum.light | ThemesEnum.dark) => {
+    (theme: Themes.light | Themes.dark) => {
       setThemeState(theme);
     },
     [setThemeState]
   );
-  const toggleTheme = () => {
-    themeState === ThemesEnum.light
-      ? changeTheme(ThemesEnum.dark)
-      : changeTheme(ThemesEnum.light);
-    context.themeChanger(
-      context.themeState === ThemesEnum.light
-        ? ThemesEnum.dark
-        : ThemesEnum.light
-    );
-  };
 
-  useEffect(() => {
-    const localTheme = context.themeState;
-    localTheme && setThemeState(localTheme);
-  }, []);
+  const toggleTheme = () => {
+    if (themeState === Themes.light) {
+      changeTheme(Themes.dark);
+      dispatch(themeToggler, Themes.dark);
+    } else {
+      changeTheme(Themes.light);
+      dispatch(themeToggler, Themes.light);
+    }
+  };
 
   return [themeState, toggleTheme];
 };

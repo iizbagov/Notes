@@ -11,14 +11,8 @@ type Props = {
 const BaseButton = styled("button")`
   border-radius: 12px;
   border: none;
-  background: ${({ theme }) => {
-    return theme.isCompleted ? theme.buttonColor.light : theme.buttonColor.dark;
-  }};
-  color: ${({ theme }) => {
-    return theme.isCompleted
-      ? theme.mainBackground.light
-      : theme.mainBackground.dark;
-  }};
+  background: ${({ theme }) => theme.buttonColor};
+  color: ${({ theme }) => theme.mainBackground};
   cursor: pointer;
 `;
 

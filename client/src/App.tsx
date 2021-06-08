@@ -8,75 +8,37 @@ import { Action } from "./components/types/notesInterface";
 import MyContext from "./components/Context";
 import colors from "./components/common/colors";
 import { ThemeProvider } from "@emotion/react";
-import { ThemesEnum } from "./components/types/enums";
+import { Themes } from "./components/types/enums";
 
 const lightTheme = {
-  mainBackground: {
-    light: colors.mainColorLight,
-    dark: colors.mainColorDark,
-  },
-  titleColor: {
-    light: colors.titleColorLight,
-    dark: colors.titleColorDark,
-  },
-  headersColor: {
-    light: colors.headersColorLight,
-    dark: colors.headersColorDark,
-  },
-  buttonColor: {
-    light: colors.activeLight,
-    dark: colors.activeDark,
-  },
-  linkColor: {
-    light: colors.linkColorLight,
-    dark: colors.linkColorDark,
-  },
-  noteBgColor: {
-    light: colors.noteBgLight,
-    dark: colors.noteBgDark,
-  },
-  isCompleted: true,
+  mainBackground: colors.mainColorLight,
+  titleColor: colors.titleColorLight,
+  headersColor: colors.headersColorLight,
+  buttonColor: colors.activeLight,
+  linkColor: colors.linkColorLight,
+  noteBgColor: colors.noteBgLight,
 };
 
 const darkTheme = {
-  mainBackground: {
-    light: colors.mainColorLight,
-    dark: colors.mainColorDark,
-  },
-  titleColor: {
-    light: colors.titleColorLight,
-    dark: colors.titleColorDark,
-  },
-  headersColor: {
-    light: colors.headersColorLight,
-    dark: colors.headersColorDark,
-  },
-  buttonColor: {
-    light: colors.activeLight,
-    dark: colors.activeDark,
-  },
-  linkColor: {
-    light: colors.linkColorLight,
-    dark: colors.linkColorDark,
-  },
-  noteBgColor: {
-    light: colors.noteBgLight,
-    dark: colors.noteBgDark,
-  },
-  isCompleted: false,
+  mainBackground: colors.mainColorDark,
+  titleColor: colors.titleColorDark,
+  headersColor: colors.headersColorDark,
+  buttonColor: colors.activeDark,
+  linkColor: colors.linkColorDark,
+  noteBgColor: colors.noteBgDark,
 };
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const [themeState, setThemeState] = useState<
-    ThemesEnum.light | ThemesEnum.dark
-  >(ThemesEnum.light);
+  const [themeContext, setthemeContext] = useState<Themes.light | Themes.dark>(
+    Themes.light
+  );
 
   const changeTheme = useCallback(
-    (theme: ThemesEnum.light | ThemesEnum.dark) => {
-      setThemeState(theme);
+    (theme: Themes.light | Themes.dark) => {
+      setthemeContext(theme);
     },
-    [setThemeState]
+    [setthemeContext]
   );
 
   function asyncMiddleware(dispatch: (action: Action) => void) {
@@ -93,13 +55,13 @@ function App() {
       value={{
         state,
         dispatchMiddleware: asyncMiddleware(dispatch),
-        themeState: themeState,
+        themeState: themeContext,
         themeChanger: changeTheme,
       }}
     >
       <div className="App">
         <ThemeProvider
-          theme={themeState === ThemesEnum.light ? lightTheme : darkTheme}
+          theme={state.theme === Themes.light ? lightTheme : darkTheme}
         >
           <BrowserRouter>
             <Route exact path="/" render={() => <Notes />} />

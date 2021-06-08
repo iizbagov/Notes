@@ -1,3 +1,4 @@
+import { Themes } from "../components/types/enums";
 import { NoteData, Action } from "../components/types/notesInterface";
 
 const URL = process.env.PUBLIC_URL || "http://localhost:5000";
@@ -70,11 +71,6 @@ export async function getNotes(dispatch: (action: Action) => void) {
   dispatch({
     type: "GET_NOTES",
     notes: responseData,
-    payload: {
-      hasError: false,
-      onRetry: () => {},
-      onCancel: () => {},
-    },
   });
 }
 export async function removeNote(
@@ -88,12 +84,7 @@ export async function removeNote(
   notes.filter((note) => note._id === id);
   dispatch({
     type: "REMOVE_NOTE",
-    notes: notes,
-    payload: {
-      hasError: false,
-      onRetry: () => {},
-      onCancel: () => {},
-    },
+    notes,
   });
 }
 
@@ -124,10 +115,15 @@ export async function createNote(
   dispatch({
     type: "CREATE_NOTE",
     notes,
-    payload: {
-      hasError: false,
-      onRetry: () => {},
-      onCancel: () => {},
-    },
+  });
+}
+
+export function themeToggler(
+  dispatch: (action: Action) => void,
+  theme: Themes.light | Themes.dark
+) {
+  dispatch({
+    type: "CHANGE_THEME",
+    theme,
   });
 }
