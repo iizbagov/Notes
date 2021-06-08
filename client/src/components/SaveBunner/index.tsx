@@ -18,9 +18,7 @@ const StyledBunner = styled("div")`
 
 function SaveBunner(props: Props) {
   useEffect(() => {
-    setTimeout(() => {
-      props.onClose();
-    }, 2000);
+    setTimeout(props.onClose, 2000);
   }, []);
   return <StyledBunner>Your data was successfully saved</StyledBunner>;
 }
