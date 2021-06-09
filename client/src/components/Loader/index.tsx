@@ -1,7 +1,6 @@
 import { keyframes } from "@emotion/react";
 import styled from "@emotion/styled";
 
-
 const LoaderAnimation = keyframes`
   0% {
     transform: rotate(0deg);
@@ -10,7 +9,7 @@ const LoaderAnimation = keyframes`
     transform: rotate(360deg);
   }
 }
-`
+`;
 
 const DualRing = styled("div")`
   display: inline-block;
@@ -23,8 +22,9 @@ const DualRing = styled("div")`
     height: 64px;
     margin: 8px;
     border-radius: 50%;
-    border: 6px solid #ffc102;
-    border-color: #ffc102 transparent #ffc102 transparent;
+    border: 6px solid ${({ theme }) => theme.buttonColor};
+    border-color: ${({ theme }) => theme.buttonColor} transparent
+      ${({ theme }) => theme.buttonColor} transparent;
     animation: ${LoaderAnimation} 1.2s linear infinite;
   }
 `;

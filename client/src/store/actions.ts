@@ -1,7 +1,11 @@
 import { Themes } from "../components/types/enums";
 import { NoteData, Action } from "../components/types/notesInterface";
 
-const URL = process.env.PUBLIC_URL;
+let URL = process.env.PUBLIC_URL;
+
+if (URL === undefined) {
+  URL = "http://localhost:5000";
+}
 
 export async function handleNoteChanges(
   dispatch: (action: Action) => void,
