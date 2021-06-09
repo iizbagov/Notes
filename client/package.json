@@ -26,9 +26,11 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "tsc": "tsc",
     "build": "react-scripts build",
+    "postinstall": "npm run tsc",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject"    
   },
   "eslintConfig": {
     "extends": [
