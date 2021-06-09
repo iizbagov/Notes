@@ -1,9 +1,11 @@
 import { Themes } from "../components/types/enums";
 import { NoteData, Action } from "../components/types/notesInterface";
 
-let URL = process.env.PUBLIC_URL;
+let URL: string;
 
-if (URL === undefined) {
+if (process.env.PUBLIC_URL === "production") {
+  URL = process.env.PUBLIC_URL;
+} else {
   URL = "http://localhost:5000";
 }
 
