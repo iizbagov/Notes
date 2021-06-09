@@ -5,27 +5,25 @@ import { themeToggler } from "./store";
 
 export const useDarkMode = () => {
   const context = useContext(AppContext);
-  const theme = context.state.theme;
   const dispatch = context.dispatchMiddleware;
-  const [themeState, setThemeState] =
-    useState<Themes.light | Themes.dark>(theme);
-
-  const changeTheme = useCallback(
-    (theme: Themes.light | Themes.dark) => {
-      setThemeState(theme);
-    },
-    [setThemeState]
-  );
-
+  const [theme, setTheme] = useState(Themes.light);
   const toggleTheme = () => {
-    if (themeState === Themes.light) {
-      changeTheme(Themes.dark);
+    if (theme === Themes.light) {
       dispatch(themeToggler, Themes.dark);
+      window.localStorage.setItem("theme", Themes.dark);
+      setTheme(Themes.dark);
     } else {
-      changeTheme(Themes.light);
       dispatch(themeToggler, Themes.light);
+      window.localStorage.setItem("theme", Themes.light);
+      setTheme(Themes.light);
     }
   };
 
-  return [themeState, toggleTheme];
+  useEffect(() => {
+    const parsedTheme = window.localStorage.getItem("theme");
+    let theme = parsedTheme === "dark" ? Themes.dark : Themes.light;
+    theme && setTheme(Themes.light);
+  }, []);
+
+  return [theme, toggleTheme];
 };

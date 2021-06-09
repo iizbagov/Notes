@@ -15,7 +15,7 @@ export const initialState: InitialState = {
     onRetry: () => {},
     onCancel: () => {},
   },
-  theme: Themes.dark,
+  theme: Themes.light,
 };
 
 export function reducer(state = initialState, action: Action) {

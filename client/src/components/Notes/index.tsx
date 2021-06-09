@@ -16,6 +16,7 @@ import { faSun, faMoon } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Themes } from "../types/enums";
 import { useDarkMode } from "../../useDarkModeHook";
+import Toggler from "../common/Toggler";
 
 const StyledAddButton = styled(Button)`
   position: absolute;
@@ -83,9 +84,8 @@ const NoteP = styled("p")`
   color: ${({ theme }) => theme.titleColor};
 `;
 
-const ThemeToggler = styled(Button)`
+const ThemeToggler = styled(Toggler)`
   position: absolute;
-  cursor: pointer;
   left: 50px;
   bottom: 50px;
   height: 50px;
@@ -113,14 +113,7 @@ function Notes() {
           }}
         />
       ) : null}
-
-      <ThemeToggler onClick={toggleTheme}>
-        {themeState === Themes.light ? (
-          <FontAwesomeIcon icon={faSun} />
-        ) : (
-          <FontAwesomeIcon icon={faMoon} />
-        )}
-      </ThemeToggler>
+      <ThemeToggler onClick={toggleTheme} />
       <StyledHeader>
         <StyledTitle>Notes</StyledTitle>
         <StyledSubtitle>Enter your note or create a new note</StyledSubtitle>
