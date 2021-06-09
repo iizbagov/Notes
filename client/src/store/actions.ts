@@ -2,7 +2,7 @@ import { Themes } from "../components/types/enums";
 import { NoteData, Action } from "../components/types/notesInterface";
 
 const URL =
-  process.env.PUBLIC_URL === "production"
+  process.env.NODE_ENV === "production"
     ? process.env.PUBLIC_URL
     : "http://localhost:5000";
 
