@@ -27,7 +27,9 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "tsx": "tsx",
     "build": "react-scripts build",
+    "postinstall": "npm run tsc",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
