@@ -1,13 +1,10 @@
 import { Themes } from "../components/types/enums";
 import { NoteData, Action } from "../components/types/notesInterface";
 
-let URL: string;
-
-if (process.env.PUBLIC_URL === "production") {
-  URL = process.env.PUBLIC_URL;
-} else {
-  URL = "http://localhost:5000";
-}
+const URL =
+  process.env.PUBLIC_URL === "production"
+    ? process.env.PUBLIC_URL
+    : "http://localhost:5000";
 
 export async function handleNoteChanges(
   dispatch: (action: Action) => void,
