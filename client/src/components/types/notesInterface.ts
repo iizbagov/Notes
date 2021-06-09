@@ -20,21 +20,21 @@ export interface InitialState {
 
 export type Action = {
   type: string;
-} & (
-  | {
-      notes: Array<NoteData>;
-    }
-  | {
-      payload: Error;
-    }
-  | {
-      notes: Array<NoteData>;
-      payload: Error;
-    }
-  | {
-      theme: Themes.light | Themes.dark;
-    }
-);
+  payload:
+    | {
+        notes: Array<NoteData>;
+      }
+    | {
+        error: Error;
+      }
+    | {
+        notes: Array<NoteData>;
+        error: Error;
+      }
+    | {
+        theme: Themes.light | Themes.dark;
+      };
+};
 
 export interface Params {
   id: string;

@@ -30,33 +30,40 @@ export async function handleNoteChanges(
       });
       dispatch({
         type: "HANDLE_NOTE_CHANGES",
-        notes,
         payload: {
-          hasError: false,
-          onRetry: () => {},
-          onCancel: () => {},
+          notes,
+          error: {
+            hasError: false,
+            onRetry: () => {},
+            onCancel: () => {},
+          },
         },
       });
     }
   } catch (err) {
     dispatch({
       type: "NOTE_CHANGE_ERROR",
-      notes,
+
       payload: {
-        hasError: true,
-        async onRetry() {
-          handleNoteChanges(dispatch, notes, note);
-        },
-        onCancel() {
-          dispatch({
-            type: "NOTE_CHANGE_ERROR",
-            notes,
-            payload: {
-              hasError: false,
-              onRetry: () => {},
-              onCancel: () => {},
-            },
-          });
+        notes,
+        error: {
+          hasError: true,
+          async onRetry() {
+            handleNoteChanges(dispatch, notes, note);
+          },
+          onCancel() {
+            dispatch({
+              type: "NOTE_CHANGE_ERROR",
+              payload: {
+                notes,
+                error: {
+                  hasError: false,
+                  onRetry: () => {},
+                  onCancel: () => {},
+                },
+              },
+            });
+          },
         },
       },
     });
@@ -70,7 +77,7 @@ export async function getNotes(dispatch: (action: Action) => void) {
   const responseData = await response.json();
   dispatch({
     type: "GET_NOTES",
-    notes: responseData,
+    payload: { notes: responseData },
   });
 }
 export async function removeNote(
@@ -84,7 +91,7 @@ export async function removeNote(
   notes.filter((note) => note._id === id);
   dispatch({
     type: "REMOVE_NOTE",
-    notes,
+    payload: { notes },
   });
 }
 
@@ -114,7 +121,7 @@ export async function createNote(
   ];
   dispatch({
     type: "CREATE_NOTE",
-    notes,
+    payload: { notes },
   });
 }
 
@@ -124,6 +131,6 @@ export function themeToggler(
 ) {
   dispatch({
     type: "CHANGE_THEME",
-    theme,
+    payload: { theme },
   });
 }

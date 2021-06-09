@@ -21,24 +21,23 @@ export const initialState: InitialState = {
 export function reducer(state = initialState, action: Action) {
   switch (action.type) {
     case HANDLE_NOTE_CHANGES:
-      if ("notes" in action && "payload" in action) {
+      if ("notes" in action.payload && "error" in action.payload) {
         return {
           ...state,
-          notes: action.notes,
-          error: { ...action.payload },
+          notes: action.payload.notes,
+          error: { ...action.payload.error },
         };
-        /* falls through */
       } else {
         return {
           ...state,
         };
       }
     case NOTE_CHANGE_ERROR:
-      if ("payload" in action) {
+      if ("error" in action.payload) {
         return {
           ...state,
           error: {
-            ...action.payload,
+            ...action.payload.error,
           },
         };
       } else {
@@ -47,10 +46,10 @@ export function reducer(state = initialState, action: Action) {
         };
       }
     case REMOVE_NOTE:
-      if ("notes" in action) {
+      if ("notes" in action.payload) {
         return {
           ...state,
-          notes: action.notes,
+          notes: action.payload.notes,
         };
       } else {
         return {
@@ -58,10 +57,10 @@ export function reducer(state = initialState, action: Action) {
         };
       }
     case GET_NOTES:
-      if ("notes" in action) {
+      if ("notes" in action.payload) {
         return {
           ...state,
-          notes: action.notes,
+          notes: action.payload.notes,
         };
       } else {
         return {
@@ -69,10 +68,10 @@ export function reducer(state = initialState, action: Action) {
         };
       }
     case CREATE_NOTE:
-      if ("notes" in action) {
+      if ("notes" in action.payload) {
         return {
           ...state,
-          notes: action.notes,
+          notes: action.payload.notes,
         };
       } else {
         return {
@@ -80,10 +79,10 @@ export function reducer(state = initialState, action: Action) {
         };
       }
     case CHANGE_THEME:
-      if ("theme" in action) {
+      if ("theme" in action.payload) {
         return {
           ...state,
-          theme: action.theme,
+          theme: action.payload.theme,
         };
       } else {
         return {
