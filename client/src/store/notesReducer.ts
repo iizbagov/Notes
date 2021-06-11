@@ -7,6 +7,7 @@ const REMOVE_NOTE = "REMOVE_NOTE";
 const GET_NOTES = "GET_NOTES";
 const CREATE_NOTE = "CREATE_NOTE";
 const CHANGE_THEME = "CHANGE_THEME";
+const CHANGE_TOKEN = "CHANGE_TOKEN";
 
 export const initialState: InitialState = {
   notes: [],
@@ -16,6 +17,7 @@ export const initialState: InitialState = {
     onCancel: () => {},
   },
   theme: Themes.light,
+  token: "",
 };
 
 export function reducer(state = initialState, action: Action) {
@@ -83,6 +85,17 @@ export function reducer(state = initialState, action: Action) {
         return {
           ...state,
           theme: action.payload.theme,
+        };
+      } else {
+        return {
+          ...state,
+        };
+      }
+    case CHANGE_TOKEN:
+      if ("token" in action.payload) {
+        return {
+          ...state,
+          token: action.payload.token,
         };
       } else {
         return {

@@ -9,8 +9,6 @@ function postNotes(req, res) {
     text: req.body.text,
   });
 
-  // Note.find()
-
   note
     .save()
     .then((data) => {
@@ -23,15 +21,9 @@ function postNotes(req, res) {
     });
 }
 
-//getNotes()
-//delete
-// app.delete('/notes/:id', () => {})
 function deleteNotes(req, res) {
   Note.findOneAndDelete({ _id: req.params.id }).then((data) => res.json(data));
 }
-//update
-//put notes/:id
-// {}
 
 function updateNotes(req, res) {
   Note.findOneAndUpdate(
@@ -48,18 +40,6 @@ function updateNotes(req, res) {
       res.json(note);
     });
   });
-
-  function hash(text) {
-    return crypto.createHash("sha1").update(text).digest("base64");
-  }
-
-  // addUser
-  function addUser(req, res) {
-    const user = new User({
-      username: req.body.username,
-      password: hash(req.body.password),
-    });
-  }
 }
 
 function getNotes(req, res) {

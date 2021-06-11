@@ -5,7 +5,7 @@ type Props = {
   onClick: any;
   onDoubleClick?: () => void;
   className?: string;
-  children: ReactElement | string;
+  children?: ReactElement | string;
 };
 
 const BaseButton = styled("button")`

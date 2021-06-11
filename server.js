@@ -6,11 +6,13 @@ const mongoose = require("mongoose");
 const path = require("path");
 const port = process.env.PORT || 8080;
 const todoRoutes = require("./routes/todosRoutes");
+const authRoutes = require("./routes/authRoutes");
 
 //
 app.use(cors());
 app.use(express.json());
 app.use(todoRoutes);
+app.use(authRoutes);
 
 mongoose.connect(process.env.MONGODB_URI, (err) => {
   if (!err) {

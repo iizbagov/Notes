@@ -74,7 +74,13 @@ function Toggler(props: Props) {
   console.log(themeState);
   return (
     <Switcher>
-      <BaseToggler type="checkbox" onClick={props.onClick} />
+      <BaseToggler
+        type="checkbox"
+        onClick={props.onClick}
+        checked={
+          window.localStorage.getItem("theme") === "light" ? false : true
+        }
+      />
       {window.localStorage.getItem("theme") === "light" ? (
         <ThemeIcon icon={faSun} />
       ) : (

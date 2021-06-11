@@ -137,3 +137,72 @@ export function themeToggler(
     payload: { theme },
   });
 }
+
+export async function getUser(dispatch: (action: Action) => void) {
+  const token = window.localStorage.getItem("token");
+  if (token) {
+    fetch(`${URL}/api/v1/users/`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+        authorization: `Bearer ${token}`,
+      },
+    });
+    dispatch({
+      type: "CHANGE_TOKEN",
+      payload: {
+        token: token!,
+      },
+    });
+  } else {
+    dispatch({
+      type: "CHANGE_TOKEN",
+      payload: {
+        token: "",
+      },
+    });
+  }
+}
+
+export async function loginUser(
+  dispatch: (action: Action) => void,
+  username: string,
+  password: string
+) {
+  const response = fetch(`${URL}/api/v1/login/`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json;charset=utf-8",
+    },
+    body: JSON.stringify({
+      username,
+      password,
+    }),
+  });
+
+  const responseData = await (await response).json();
+  const token = responseData.token;
+  window.localStorage.setItem("token", token);
+  dispatch({
+    type: "CHANGE_TOKEN",
+    payload: {
+      token,
+    },
+  });
+}
+
+export async function registerUser(username: string, password: string) {
+  const response = fetch(`${URL}/api/v1/registration/`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json;charset=utf-8",
+    },
+    body: JSON.stringify({
+      username,
+      password,
+    }),
+  });
+
+  const responseData = await (await response).json();
+  console.log(responseData);
+}

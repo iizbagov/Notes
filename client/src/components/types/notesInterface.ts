@@ -16,6 +16,7 @@ export interface InitialState {
   notes: Array<NoteData>;
   error: Error;
   theme: Themes.light | Themes.dark;
+  token: string;
 }
 
 export type Action = {
@@ -33,6 +34,9 @@ export type Action = {
       }
     | {
         theme: Themes.light | Themes.dark;
+      }
+    | {
+        token: string;
       };
 };
 

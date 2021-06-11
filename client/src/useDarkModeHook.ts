@@ -1,4 +1,4 @@
-import { useCallback, useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AppContext } from "./components/Context";
 import { Themes } from "./components/types/enums";
 import { themeToggler } from "./store";
@@ -22,7 +22,8 @@ export const useDarkMode = () => {
   useEffect(() => {
     const parsedTheme = window.localStorage.getItem("theme");
     let theme = parsedTheme === "dark" ? Themes.dark : Themes.light;
-    theme && setTheme(Themes.light);
+    theme && setTheme(theme);
+    theme && dispatch(themeToggler, theme);
   }, []);
 
   return [theme, toggleTheme];
