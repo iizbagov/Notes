@@ -1,6 +1,7 @@
 export default {
   noteShadow: "rgba(0, 0, 0, 0.1);",
   popupBg: "rgba(0, 0, 0, 0.5);",
+  errorMessageColor: "#F44336",
 
   noteBgLight: "#fff",
   headersColorLight: "#cdcdcd",

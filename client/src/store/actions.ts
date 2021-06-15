@@ -12,10 +12,12 @@ export async function handleNoteChanges(
   note: NoteData
 ) {
   try {
+    const token = window.localStorage.getItem("token");
     const response = await fetch(`${URL}/api/v1/notes/${note._id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
+        authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
         title: note.title,
@@ -74,8 +76,12 @@ export async function handleNoteChanges(
 }
 
 export async function getNotes(dispatch: (action: Action) => void) {
-  const response = await fetch(`${URL}/api/v1/`, {
+  const token = window.localStorage.getItem("token");
+  const response = await fetch(`${URL}/api/v1/notes/`, {
     method: "GET",
+    headers: {
+      authorization: `Bearer ${token}`,
+    },
   });
   const responseData = await response.json();
   dispatch({
@@ -88,8 +94,12 @@ export async function removeNote(
   notes: Array<NoteData>,
   id: string
 ) {
+  const token = window.localStorage.getItem("token");
   await fetch(`${URL}/api/v1/notes/${id}`, {
     method: "DELETE",
+    headers: {
+      authorization: `Bearer ${token}`,
+    },
   });
   notes.filter((note) => note._id === id);
   dispatch({
@@ -103,10 +113,12 @@ export async function createNote(
   notes: Array<NoteData>,
   newNote: NoteData
 ) {
+  const token = window.localStorage.getItem("token");
   const response = await fetch(`${URL}/api/v1/notes/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json;charset=utf-8",
+      authorization: `Bearer ${token}`,
     },
     body: JSON.stringify({
       title: newNote.title,
@@ -140,25 +152,45 @@ export function themeToggler(
 
 export async function getUser(dispatch: (action: Action) => void) {
   const token = window.localStorage.getItem("token");
+  console.log(token);
   if (token) {
-    fetch(`${URL}/api/v1/users/`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json;charset=utf-8",
-        authorization: `Bearer ${token}`,
-      },
-    });
-    dispatch({
-      type: "CHANGE_TOKEN",
-      payload: {
-        token: token!,
-      },
-    });
+    try {
+      const response = await fetch(`${URL}/api/v1/users/`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json;charset=utf-8",
+          authorization: `Bearer ${token}`,
+        },
+      });
+      if (response.status === 200) {
+        console.log(response.status, "here");
+        dispatch({
+          type: "CHANGE_IN_STATE",
+          payload: {
+            isIn: true,
+          },
+        });
+      } else {
+        dispatch({
+          type: "CHANGE_IN_STATE",
+          payload: {
+            isIn: false,
+          },
+        });
+      }
+    } catch {
+      dispatch({
+        type: "CHANGE_IN_STATE",
+        payload: {
+          isIn: false,
+        },
+      });
+    }
   } else {
     dispatch({
-      type: "CHANGE_TOKEN",
+      type: "CHANGE_IN_STATE",
       payload: {
-        token: "",
+        isIn: false,
       },
     });
   }
@@ -169,7 +201,7 @@ export async function loginUser(
   username: string,
   password: string
 ) {
-  const response = fetch(`${URL}/api/v1/login/`, {
+  const response = await fetch(`${URL}/api/v1/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json;charset=utf-8",
@@ -180,19 +212,23 @@ export async function loginUser(
     }),
   });
 
-  const responseData = await (await response).json();
+  const responseData = await response.json();
   const token = responseData.token;
   window.localStorage.setItem("token", token);
   dispatch({
-    type: "CHANGE_TOKEN",
+    type: "CHANGE_IN_STATE",
     payload: {
-      token,
+      isIn: true,
     },
   });
 }
 
-export async function registerUser(username: string, password: string) {
-  const response = fetch(`${URL}/api/v1/registration/`, {
+export async function registerUser(
+  dispatch: (action: Action) => void,
+  username: string,
+  password: string
+) {
+  const response = await fetch(`${URL}/api/v1/registration/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json;charset=utf-8",
@@ -202,7 +238,4 @@ export async function registerUser(username: string, password: string) {
       password,
     }),
   });
-
-  const responseData = await (await response).json();
-  console.log(responseData);
 }

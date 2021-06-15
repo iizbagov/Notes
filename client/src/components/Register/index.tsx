@@ -1,15 +1,15 @@
 import styled from "@emotion/styled";
 import { useContext } from "react";
-import { loginUser } from "../../store";
+import { registerUser } from "../../store";
 import { centerAbsoluteCss } from "../common/Position";
 import { AppContext } from "../Context";
 import { useFormik } from "formik";
 import { AppLink } from "../common/AppLink";
-import * as Yup from "yup";
-import colors from "../common/colors";
 import { Column } from "../common/Flex";
 import ThemeToggler from "../common/Toggler";
 import { useDarkMode } from "../../useDarkModeHook";
+import * as Yup from "yup";
+import colors from "../common/colors";
 import { useHistory } from "react-router";
 
 const FormWrapper = styled(Column)`
@@ -20,7 +20,7 @@ const FormWrapper = styled(Column)`
   background: ${({ theme }) => theme.mainBackground};
 `;
 
-const StyledLoginForm = styled("form")`
+const StyledRegisterForm = styled("form")`
   height: 500px;
   width: 400px;
   background-color: ${({ theme }) => theme.noteBgColor};
@@ -32,12 +32,12 @@ const StyledLoginForm = styled("form")`
   border-radius: 10px;
 `;
 
-const LoginSection = styled(Column)`
+const RegisterSection = styled(Column)`
   position: relative;
   margin-bottom: 5px;
 `;
 
-const LoginFormInput = styled("input")`
+const RegisterFormInput = styled("input")`
   padding: 15px;
   background-color: ${({ theme }) => theme.mainBackground};
   color: ${({ theme }) => theme.linkColor};
@@ -47,7 +47,7 @@ const LoginFormInput = styled("input")`
   border: none;
 `;
 
-const LoginFormLabel = styled("label")`
+const RegisterFormLabel = styled("label")`
   margin: 10px 0 5px;
 `;
 
@@ -60,7 +60,7 @@ const ErrorMessage = styled("div")`
   top: 105px;
 `;
 
-const LoginFormButton = styled("button")`
+const RegisterFormButton = styled("button")`
   height: 50px;
   width: 100px;
   margin-top: 15px;
@@ -75,8 +75,7 @@ const LoginFormButton = styled("button")`
 `;
 
 const RegisterLink = styled("div")`
-  margin-bottom: 5px;
-  margin-top: 10px;
+  margin: 10px 0 5px;
 `;
 
 const StyledLink = styled(AppLink)`
@@ -97,29 +96,29 @@ const SignupSchema = Yup.object().shape({
     .required("Required Password"),
 });
 
-function LoginForm() {
+function RegisterForm() {
   const context = useContext(AppContext);
   const dispatch = context.dispatchMiddleware;
-  const [_, toggleTheme] = useDarkMode();
   const history = useHistory();
+  const [_, toggleTheme] = useDarkMode();
   const formik = useFormik({
     initialValues: {
       username: "",
       password: "",
     },
     validationSchema: SignupSchema,
-    onSubmit: async (values) => {
-      await dispatch(loginUser, values.username, values.password);
-      history.push("/notes");
+    onSubmit: (values) => {
+      dispatch(registerUser, values.username, values.password);
+      history.push("/");
     },
   });
   return (
     <FormWrapper>
       <ThemeToggler onClick={toggleTheme} />
-      <StyledLoginForm onSubmit={formik.handleSubmit}>
-        <LoginSection>
-          <LoginFormLabel htmlFor="username=">Username</LoginFormLabel>
-          <LoginFormInput
+      <StyledRegisterForm onSubmit={formik.handleSubmit}>
+        <RegisterSection>
+          <RegisterFormLabel htmlFor="username=">Username</RegisterFormLabel>
+          <RegisterFormInput
             placeholder="username"
             id="username"
             name="username"
@@ -130,10 +129,10 @@ function LoginForm() {
           {formik.errors.username ? (
             <ErrorMessage>{formik.errors.username}</ErrorMessage>
           ) : null}
-        </LoginSection>
-        <LoginSection>
-          <LoginFormLabel htmlFor="password">Password</LoginFormLabel>
-          <LoginFormInput
+        </RegisterSection>
+        <RegisterSection>
+          <RegisterFormLabel htmlFor="password">Password</RegisterFormLabel>
+          <RegisterFormInput
             placeholder="password"
             id="password"
             name="password"
@@ -144,15 +143,14 @@ function LoginForm() {
           {formik.errors.password ? (
             <ErrorMessage>{formik.errors.password}</ErrorMessage>
           ) : null}
-        </LoginSection>
+        </RegisterSection>
         <RegisterLink>
-          Not yet registered? Go to{" "}
-          <StyledLink to="/register">Sign up</StyledLink>
+          Go to <StyledLink to="/">Log in</StyledLink>
         </RegisterLink>
-        <LoginFormButton type="submit">Log in</LoginFormButton>
-      </StyledLoginForm>
+        <RegisterFormButton type="submit">Sign up</RegisterFormButton>
+      </StyledRegisterForm>
     </FormWrapper>
   );
 }
 
-export default LoginForm;
+export default RegisterForm;

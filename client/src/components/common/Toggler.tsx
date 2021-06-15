@@ -2,8 +2,6 @@ import styled from "@emotion/styled";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faSun, faMoon } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useDarkMode } from "../../useDarkModeHook";
-import { Themes } from "../types/enums";
 import colors from "./colors";
 
 type Props = {
@@ -70,14 +68,12 @@ const ThemeIcon = styled(FontAwesomeIcon)`
 
 function Toggler(props: Props) {
   library.add(faSun, faMoon);
-  const [themeState, toggleTheme] = useDarkMode();
-  console.log(themeState);
   return (
     <Switcher>
       <BaseToggler
         type="checkbox"
         onClick={props.onClick}
-        checked={
+        defaultChecked={
           window.localStorage.getItem("theme") === "light" ? false : true
         }
       />

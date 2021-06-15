@@ -13,7 +13,7 @@ import space from "../common/space";
 import { AppLink } from "../common/AppLink";
 import { useDarkMode } from "../../useDarkModeHook";
 import Toggler from "../common/Toggler";
-import Login from "../LoginWindow";
+import { useHistory } from "react-router";
 
 const StyledAddButton = styled(Button)`
   position: absolute;
@@ -92,11 +92,12 @@ const ThemeToggler = styled(Toggler)`
 
 function Notes() {
   const context = useContext(AppContext);
-  const token = context.state.token;
+  const isIn = context.state.isIn;
   const dispatch = context.dispatchMiddleware;
   const notes = context.state.notes;
   const [open, setOpen] = useState<boolean>(false);
-  const [themeState, toggleTheme] = useDarkMode();
+  const [_, toggleTheme] = useDarkMode();
+  const history = useHistory();
 
   useEffect(() => {
     dispatch(getNotes);
@@ -113,45 +114,44 @@ function Notes() {
         />
       ) : null}
       <ThemeToggler onClick={toggleTheme} />
-      {token.length > 0 ? (
-        <div>
-          <StyledHeader>
-            <StyledTitle>Notes</StyledTitle>
-            <StyledSubtitle>
-              Enter your note or create a new note
-            </StyledSubtitle>
-          </StyledHeader>
-          <StyledAddButton
-            onClick={() => {
-              setOpen(!open);
-            }}
-          >
-            +
-          </StyledAddButton>
-          <NotesContainer>
-            {notes.length > 0 ? (
-              notes.map((note: NoteData) => {
-                return (
-                  <div key={note._id}>
-                    <AppLink to={`/notes/${note._id}`}>
-                      <NoteLink>
-                        <NoteTitle>{note.title}</NoteTitle>
-                        <NoteP>{note.text}</NoteP>
-                      </NoteLink>
-                    </AppLink>
-                  </div>
-                );
-              })
-            ) : (
-              <NotesLoader>
-                <Loader />
-              </NotesLoader>
-            )}
-          </NotesContainer>
-        </div>
-      ) : (
-        <Login />
-      )}
+      <div>
+        <StyledHeader>
+          <StyledTitle>Notes</StyledTitle>
+          <StyledSubtitle>Enter your note or create a new note</StyledSubtitle>
+        </StyledHeader>
+        <StyledAddButton
+          onClick={() => {
+            setOpen(!open);
+          }}
+        >
+          +
+        </StyledAddButton>
+        <NotesContainer>
+          {notes.length > 0 ? (
+            notes.map((note: NoteData) => {
+              return (
+                <div key={note._id}>
+                  <AppLink
+                    onClick={() => {
+                      dispatch(getUser);
+                    }}
+                    to={`/notes/${note._id}`}
+                  >
+                    <NoteLink>
+                      <NoteTitle>{note.title}</NoteTitle>
+                      <NoteP>{note.text}</NoteP>
+                    </NoteLink>
+                  </AppLink>
+                </div>
+              );
+            })
+          ) : (
+            <NotesLoader>
+              <Loader />
+            </NotesLoader>
+          )}
+        </NotesContainer>
+      </div>
     </StyledNotes>
   );
 }

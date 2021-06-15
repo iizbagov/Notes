@@ -3,6 +3,7 @@ import { useEffect } from "react";
 
 type Props = {
   onClose: () => void;
+  text: string;
 };
 
 const StyledBunner = styled("div")`
@@ -16,11 +17,11 @@ const StyledBunner = styled("div")`
   border-radius: 10px;
 `;
 
-function SaveBunner(props: Props) {
+function Bunner(props: Props, text: string) {
   useEffect(() => {
     setTimeout(props.onClose, 2000);
   }, []);
-  return <StyledBunner>Your data was successfully saved</StyledBunner>;
+  return <StyledBunner>{text}</StyledBunner>;
 }
 
-export default SaveBunner;
+export default Bunner;

@@ -34,9 +34,7 @@ function updateNotes(req, res) {
     },
     { useFindAndModify: true }
   ).then((value) => {
-    console.log(`value`, value);
     Note.findById(req.params.id).then((note) => {
-      console.log("log", note);
       res.json(note);
     });
   });
@@ -44,7 +42,6 @@ function updateNotes(req, res) {
 
 function getNotes(req, res) {
   Note.find().then((data) => {
-    console.log(data);
     res.json(data);
   });
 }

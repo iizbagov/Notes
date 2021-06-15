@@ -15,8 +15,8 @@ export interface Error {
 export interface InitialState {
   notes: Array<NoteData>;
   error: Error;
-  theme: Themes.light | Themes.dark;
-  token: string;
+  theme: string;
+  isIn: boolean;
 }
 
 export type Action = {
@@ -36,7 +36,7 @@ export type Action = {
         theme: Themes.light | Themes.dark;
       }
     | {
-        token: string;
+        isIn: boolean;
       };
 };
 

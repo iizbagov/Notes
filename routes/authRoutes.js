@@ -19,7 +19,7 @@ router.post(
   ],
   registration
 );
-router.post("/api/v1/login/", login);
+router.post("/api/v1/", login);
 router.get("/api/v1/users/", authMiddleware, getUsers);
 
 module.exports = router;

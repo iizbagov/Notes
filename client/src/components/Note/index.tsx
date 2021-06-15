@@ -13,13 +13,15 @@ import Loader from "../Loader";
 import { getNotes, handleNoteChanges } from "../../store/actions";
 import { removeNote } from "../../store/actions";
 import ErrorPopup from "../ErrorPopup";
-import SaveBunner from "../SaveBunner";
+import Bunner from "../Bunner";
 import { NoteData, Params } from "../types/notesInterface";
 import { AppContext } from "../Context";
 import styled from "@emotion/styled";
 import { Column } from "../common/Flex";
 import Input from "../common/Input";
 import Textarea from "../common/Textarea";
+import ThemeToggler from "../common/Toggler";
+import { useDarkMode } from "../../useDarkModeHook";
 
 const StyledRemoveButton = styled(Button)`
   position: absolute;
@@ -87,6 +89,7 @@ function Note() {
   const history = useHistory();
   const params: Params = useParams();
   const id: string = params.id;
+  const [_, toggleTheme] = useDarkMode();
   const [noteValues, setNoteValues] = useState<NoteData>({
     title: "",
     text: "",
@@ -138,12 +141,12 @@ function Note() {
 
   function resetNote(index: string) {
     dispatch(removeNote, notes, index);
-    history.push("/");
+    history.push("/notes");
   }
 
   function goToNotes() {
     if (isSaved === false) {
-      history.push("/");
+      history.push("/notes");
       inputIsActive && changeTitle(false);
       textareaIsActive && changeText(false);
     }
@@ -157,8 +160,14 @@ function Note() {
     <div>
       {notes.length > 0 ? (
         <StyledNote>
+          <ThemeToggler onClick={toggleTheme} />
           {hasError ? <ErrorPopup /> : null}
-          {isSaved ? <SaveBunner onClose={onClose} /> : null}
+          {isSaved ? (
+            <Bunner
+              text={"Your data was successfully saved"}
+              onClose={onClose}
+            />
+          ) : null}
           <NoteHeader>
             <div>
               <StyledBackButton onClick={goToNotes}>
