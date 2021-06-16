@@ -23,7 +23,6 @@ export const useDarkMode = () => {
     const parsedTheme = window.localStorage.getItem("theme");
     let theme = parsedTheme === "dark" ? Themes.dark : Themes.light;
     theme && setTheme(theme);
-    theme && dispatch(themeToggler, theme);
   }, []);
 
   return [theme, toggleTheme];

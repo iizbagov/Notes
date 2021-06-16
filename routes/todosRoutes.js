@@ -6,11 +6,11 @@ const {
   deleteNotes,
   updateNotes,
 } = require("../controllers/todosController");
-const notesMiddleware = require("../middleware/notesMiddleware");
+const authMiddleware = require("../middleware/authMiddleware");
 
-router.get("/api/v1/notes/", notesMiddleware, getNotes);
-router.post("/api/v1/notes/", notesMiddleware, postNotes);
-router.put("/api/v1/notes/:id", notesMiddleware, updateNotes);
-router.delete("/api/v1/notes/:id", notesMiddleware, deleteNotes);
+router.get("/api/v1/notes/", authMiddleware, getNotes);
+router.post("/api/v1/notes/", authMiddleware, postNotes);
+router.put("/api/v1/notes/:id", authMiddleware, updateNotes);
+router.delete("/api/v1/notes/:id", authMiddleware, deleteNotes);
 
 module.exports = router;

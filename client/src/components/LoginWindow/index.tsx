@@ -100,7 +100,7 @@ const SignupSchema = Yup.object().shape({
 function LoginForm() {
   const context = useContext(AppContext);
   const dispatch = context.dispatchMiddleware;
-  const [_, toggleTheme] = useDarkMode();
+  const [, toggleTheme] = useDarkMode();
   const history = useHistory();
   const formik = useFormik({
     initialValues: {

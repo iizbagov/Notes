@@ -1,10 +1,6 @@
 import { Themes } from "../components/types/enums";
 import { NoteData, Action } from "../components/types/notesInterface";
-
-const URL =
-  process.env.NODE_ENV === "production"
-    ? process.env.PUBLIC_URL
-    : "http://localhost:5000";
+import ApiService from "../api";
 
 export async function handleNoteChanges(
   dispatch: (action: Action) => void,
@@ -12,17 +8,9 @@ export async function handleNoteChanges(
   note: NoteData
 ) {
   try {
-    const token = window.localStorage.getItem("token");
-    const response = await fetch(`${URL}/api/v1/notes/${note._id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json;charset=utf-8",
-        authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({
-        title: note.title,
-        text: note.text,
-      }),
+    const response = await ApiService.put(`notes/${note._id}`, {
+      title: note.title,
+      text: note.text,
     });
     if (response.ok) {
       const responseData = await response.json();
@@ -48,12 +36,11 @@ export async function handleNoteChanges(
   } catch (err) {
     dispatch({
       type: "NOTE_CHANGE_ERROR",
-
       payload: {
         notes,
         error: {
           hasError: true,
-          async onRetry() {
+          onRetry() {
             handleNoteChanges(dispatch, notes, note);
           },
           onCancel() {
@@ -76,13 +63,12 @@ export async function handleNoteChanges(
 }
 
 export async function getNotes(dispatch: (action: Action) => void) {
-  const token = window.localStorage.getItem("token");
-  const response = await fetch(`${URL}/api/v1/notes/`, {
-    method: "GET",
-    headers: {
-      authorization: `Bearer ${token}`,
-    },
-  });
+  const response = await ApiService.get(`notes/`);
+  if (response.status === 403) {
+    dispatch({
+      type: "AUTH_FALSE",
+    });
+  }
   const responseData = await response.json();
   dispatch({
     type: "GET_NOTES",
@@ -94,13 +80,7 @@ export async function removeNote(
   notes: Array<NoteData>,
   id: string
 ) {
-  const token = window.localStorage.getItem("token");
-  await fetch(`${URL}/api/v1/notes/${id}`, {
-    method: "DELETE",
-    headers: {
-      authorization: `Bearer ${token}`,
-    },
-  });
+  await ApiService.delete(`notes/${id}`);
   notes.filter((note) => note._id === id);
   dispatch({
     type: "REMOVE_NOTE",
@@ -113,19 +93,13 @@ export async function createNote(
   notes: Array<NoteData>,
   newNote: NoteData
 ) {
-  const token = window.localStorage.getItem("token");
-  const response = await fetch(`${URL}/api/v1/notes/`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json;charset=utf-8",
-      authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify({
-      title: newNote.title,
-      text: newNote.text,
-    }),
+  const postData = await ApiService.post(`notes/`, {
+    _id: newNote._id,
+    title: newNote.title,
+    text: newNote.text,
   });
-  const responseData = await response.json();
+  const responseData = postData.responseData;
+  console.log(responseData);
   notes = [
     ...notes,
     {
@@ -134,6 +108,11 @@ export async function createNote(
       text: newNote.text,
     },
   ];
+  if (postData.response.status === 403) {
+    dispatch({
+      type: "AUTH_FALSE",
+    });
+  }
   dispatch({
     type: "CREATE_NOTE",
     payload: { notes },
@@ -152,46 +131,20 @@ export function themeToggler(
 
 export async function getUser(dispatch: (action: Action) => void) {
   const token = window.localStorage.getItem("token");
-  console.log(token);
   if (token) {
-    try {
-      const response = await fetch(`${URL}/api/v1/users/`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json;charset=utf-8",
-          authorization: `Bearer ${token}`,
-        },
-      });
-      if (response.status === 200) {
-        console.log(response.status, "here");
-        dispatch({
-          type: "CHANGE_IN_STATE",
-          payload: {
-            isIn: true,
-          },
-        });
-      } else {
-        dispatch({
-          type: "CHANGE_IN_STATE",
-          payload: {
-            isIn: false,
-          },
-        });
-      }
-    } catch {
+    const response = await ApiService.get(`users/`);
+    if (response.status === 200) {
       dispatch({
-        type: "CHANGE_IN_STATE",
-        payload: {
-          isIn: false,
-        },
+        type: "AUTH_TRUE",
+      });
+    } else {
+      dispatch({
+        type: "AUTH_FALSE",
       });
     }
   } else {
     dispatch({
-      type: "CHANGE_IN_STATE",
-      payload: {
-        isIn: false,
-      },
+      type: "AUTH_FALSE",
     });
   }
 }
@@ -201,41 +154,19 @@ export async function loginUser(
   username: string,
   password: string
 ) {
-  const response = await fetch(`${URL}/api/v1/`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json;charset=utf-8",
-    },
-    body: JSON.stringify({
-      username,
-      password,
-    }),
+  await ApiService.post(``, {
+    username: username,
+    password: password,
   });
 
-  const responseData = await response.json();
-  const token = responseData.token;
-  window.localStorage.setItem("token", token);
   dispatch({
-    type: "CHANGE_IN_STATE",
-    payload: {
-      isIn: true,
-    },
+    type: "AUTH_TRUE",
   });
 }
 
-export async function registerUser(
-  dispatch: (action: Action) => void,
-  username: string,
-  password: string
-) {
-  const response = await fetch(`${URL}/api/v1/registration/`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json;charset=utf-8",
-    },
-    body: JSON.stringify({
-      username,
-      password,
-    }),
+export async function registerUser(username: string, password: string) {
+  await ApiService.post(`registration/`, {
+    username: username,
+    password: password,
   });
 }

@@ -1,4 +1,4 @@
-export default {
+const color = {
   noteShadow: "rgba(0, 0, 0, 0.1);",
   popupBg: "rgba(0, 0, 0, 0.5);",
   errorMessageColor: "#F44336",
@@ -14,6 +14,9 @@ export default {
   headersColorDark: "#fff",
   activeDark: "#61DAFB",
   mainColorDark: "#282C34",
+
   linkColorDark: "#fff",
   titleColorDark: "#fff",
 };
+
+export default color;

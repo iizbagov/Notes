@@ -1,4 +1,4 @@
-import { BrowserRouter, Redirect, Route } from "react-router-dom";
+import { BrowserRouter, Route } from "react-router-dom";
 import "./index.css";
 import { useCallback, useReducer, useState } from "react";
 import Notes from "./components/Notes";
@@ -11,6 +11,7 @@ import { ThemeProvider } from "@emotion/react";
 import { Themes } from "./components/types/enums";
 import Register from "./components/Register";
 import LoginForm from "./components/LoginWindow";
+import AuthenticatedRoute from "./components/AuthenticatedRoute";
 
 const lightTheme = {
   mainBackground: colors.mainColorLight,
@@ -52,8 +53,6 @@ function App() {
     };
   }
 
-  console.log(state.isIn);
-
   return (
     <MyContext
       value={{
@@ -69,15 +68,8 @@ function App() {
         >
           <BrowserRouter>
             <Route exact path="/" render={() => <LoginForm />} />
-            <Route
-              exact
-              path="/notes"
-              render={() => (state.isIn ? <Notes /> : <Redirect to="/" />)}
-            />
-            <Route
-              path="/notes/:id"
-              render={() => (state.isIn ? <Note /> : <Redirect to="/" />)}
-            />
+            <AuthenticatedRoute exact path="/notes" render={() => <Notes />} />
+            <AuthenticatedRoute path="/notes/:id" render={() => <Note />} />
             <Route path="/register" render={() => <Register />} />
           </BrowserRouter>
         </ThemeProvider>

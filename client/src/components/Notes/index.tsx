@@ -13,7 +13,6 @@ import space from "../common/space";
 import { AppLink } from "../common/AppLink";
 import { useDarkMode } from "../../useDarkModeHook";
 import Toggler from "../common/Toggler";
-import { useHistory } from "react-router";
 
 const StyledAddButton = styled(Button)`
   position: absolute;
@@ -92,16 +91,13 @@ const ThemeToggler = styled(Toggler)`
 
 function Notes() {
   const context = useContext(AppContext);
-  const isIn = context.state.isIn;
   const dispatch = context.dispatchMiddleware;
   const notes = context.state.notes;
   const [open, setOpen] = useState<boolean>(false);
-  const [_, toggleTheme] = useDarkMode();
-  const history = useHistory();
+  const [, toggleTheme] = useDarkMode();
 
   useEffect(() => {
     dispatch(getNotes);
-    dispatch(getUser);
   }, [getNotes]);
 
   return (

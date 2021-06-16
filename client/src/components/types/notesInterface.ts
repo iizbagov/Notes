@@ -16,29 +16,30 @@ export interface InitialState {
   notes: Array<NoteData>;
   error: Error;
   theme: string;
-  isIn: boolean;
+  isAuthenticated: boolean;
 }
 
-export type Action = {
-  type: string;
-  payload:
-    | {
-        notes: Array<NoteData>;
-      }
-    | {
-        error: Error;
-      }
-    | {
-        notes: Array<NoteData>;
-        error: Error;
-      }
-    | {
-        theme: Themes.light | Themes.dark;
-      }
-    | {
-        isIn: boolean;
-      };
-};
+export type Action =
+  | {
+      type: string;
+      payload:
+        | {
+            notes: Array<NoteData>;
+          }
+        | {
+            error: Error;
+          }
+        | {
+            notes: Array<NoteData>;
+            error: Error;
+          }
+        | {
+            theme: Themes.light | Themes.dark;
+          };
+    }
+  | {
+      type: string;
+    };
 
 export interface Params {
   id: string;

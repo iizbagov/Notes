@@ -20,7 +20,7 @@ const StyledBunner = styled("div")`
 function Bunner(props: Props, text: string) {
   useEffect(() => {
     setTimeout(props.onClose, 2000);
-  }, []);
+  }, [props.onClose]);
   return <StyledBunner>{text}</StyledBunner>;
 }
 

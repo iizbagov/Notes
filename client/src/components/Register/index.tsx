@@ -100,7 +100,7 @@ function RegisterForm() {
   const context = useContext(AppContext);
   const dispatch = context.dispatchMiddleware;
   const history = useHistory();
-  const [_, toggleTheme] = useDarkMode();
+  const [, toggleTheme] = useDarkMode();
   const formik = useFormik({
     initialValues: {
       username: "",

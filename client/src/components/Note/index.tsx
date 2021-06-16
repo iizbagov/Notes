@@ -89,7 +89,7 @@ function Note() {
   const history = useHistory();
   const params: Params = useParams();
   const id: string = params.id;
-  const [_, toggleTheme] = useDarkMode();
+  const [, toggleTheme] = useDarkMode();
   const [noteValues, setNoteValues] = useState<NoteData>({
     title: "",
     text: "",
@@ -110,7 +110,7 @@ function Note() {
         _id: note!._id,
       });
     }
-  }, [notes]);
+  }, [notes, id]);
 
   useEffect(() => {
     dispatch(getNotes);

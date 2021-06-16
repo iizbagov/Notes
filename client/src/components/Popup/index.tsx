@@ -8,6 +8,7 @@ import styled from "@emotion/styled";
 import { centerAbsoluteCss } from "../common/Position";
 import colors from "../common/colors";
 import { Column } from "../common/Flex";
+import { useHistory } from "react-router";
 
 type Props = {
   setOpen: () => void;
@@ -77,6 +78,8 @@ function Popup(props: Props) {
   });
   const dispatch = context.dispatchMiddleware;
   const notes = context.state.notes;
+  const isAuth = context.state.isAuthenticated;
+  const history = useHistory();
 
   function createNoteData() {
     const title = noteValues.title;
@@ -108,6 +111,9 @@ function Popup(props: Props) {
       </PopupContainer>
       <StyledDarkFone
         onClick={() => {
+          if (!isAuth) {
+            history.push("/");
+          }
           props.setOpen();
         }}
       >
