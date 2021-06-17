@@ -44,13 +44,18 @@ function App() {
     [setthemeContext]
   );
 
-  function asyncMiddleware(dispatch: (action: Action) => void) {
-    return (
+  const middleware = useCallback(
+    (
       action: (dispatch: (action: Action) => void, ...args: any[]) => void,
       ...args: any[]
     ) => {
       return action.apply(null, [dispatch, ...args]);
-    };
+    },
+    [dispatch]
+  );
+
+  function asyncMiddleware(dispatch: (action: Action) => void) {
+    return middleware;
   }
 
   return (

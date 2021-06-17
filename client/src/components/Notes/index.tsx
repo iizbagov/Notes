@@ -98,7 +98,7 @@ function Notes() {
 
   useEffect(() => {
     dispatch(getNotes);
-  }, [getNotes]);
+  }, [dispatch]);
 
   return (
     <StyledNotes>

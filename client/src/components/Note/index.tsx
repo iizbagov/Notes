@@ -114,7 +114,7 @@ function Note() {
 
   useEffect(() => {
     dispatch(getNotes);
-  }, [getNotes]);
+  }, [dispatch]);
 
   useEffect(() => {}, [hasError]);
 

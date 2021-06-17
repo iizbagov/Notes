@@ -112,11 +112,12 @@ export async function createNote(
     dispatch({
       type: "AUTH_FALSE",
     });
+  } else {
+    dispatch({
+      type: "CREATE_NOTE",
+      payload: { notes },
+    });
   }
-  dispatch({
-    type: "CREATE_NOTE",
-    payload: { notes },
-  });
 }
 
 export function themeToggler(
